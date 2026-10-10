@@ -500,22 +500,25 @@ address { font-style: normal; }
 .closing-sheet {
   position: relative;
   text-align: center;
-  padding: 2rem 1rem 4.5rem;
-  overflow: hidden;
+  padding: 2rem 1rem 5.75rem;
+  overflow: visible;
 }
 .closing-inner {
   position: relative;
-  z-index: 2;
+  z-index: 4;
+  padding-bottom: 0.5rem;
 }
 .closing-bouquet {
   position: absolute;
-  width: 52%;
-  bottom: -8px;
+  width: 34%;
+  max-height: 118px;
+  bottom: 0;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
+  opacity: 0.88;
 }
-.closing-bouquet-left { left: -8%; }
-.closing-bouquet-right { right: -8%; }
+.closing-bouquet-left { left: -4%; }
+.closing-bouquet-right { right: -4%; }
 
 .rsvp-sheet { text-align: center; padding-bottom: 4.5rem; overflow: hidden; }
 .rsvp-heading { font-size: clamp(2.4rem, 9vw, 3.2rem); }
@@ -535,18 +538,52 @@ address { font-style: normal; }
   margin: 1.4rem 0 0;
   font-family: var(--script);
   font-size: clamp(2.2rem, 8vw, 2.8rem);
-  color: #c4a27a;
+  color: #a8721c;
+  text-shadow:
+    0 0 16px rgba(255, 252, 245, 0.9),
+    0 1px 0 rgba(255, 255, 255, 0.8);
 }
 .hope-names {
-  margin: 0.35rem 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  margin: 1rem auto 0;
+  padding: 1rem 1.35rem 1.15rem;
+  width: min(100%, 19.5rem);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 252, 246, 0.98) 0%,
+    rgba(248, 240, 228, 0.96) 100%
+  );
+  border-radius: 14px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 10px 28px rgba(55, 38, 22, 0.14);
+  position: relative;
+  z-index: 5;
+}
+.closing-name {
   font-family: var(--names);
-  font-size: clamp(1.85rem, 7vw, 2.35rem);
-  line-height: 1.15;
+  font-size: clamp(2.15rem, 9vw, 2.85rem);
+  line-height: 1.08;
   letter-spacing: 0.02em;
-  color: #7a4a28;
+  color: #8f5a18;
+  -webkit-text-stroke: 0.35px rgba(72, 46, 14, 0.55);
+  paint-order: stroke fill;
   text-shadow:
-    0 0 12px rgba(255, 252, 245, 0.85),
-    0 1px 0 rgba(255, 255, 255, 0.75);
+    0 0 20px rgba(255, 252, 245, 0.95),
+    0 1px 0 rgba(255, 255, 255, 0.92),
+    0 2px 0 rgba(130, 88, 32, 0.45),
+    0 3px 12px rgba(48, 32, 18, 0.25);
+}
+.closing-amp {
+  font-family: var(--names);
+  font-size: clamp(1.25rem, 4.5vw, 1.55rem);
+  line-height: 1;
+  margin: 0.15rem 0;
+  color: #b8862e;
+  -webkit-text-stroke: 0.25px rgba(72, 46, 14, 0.4);
 }
 .rsvp-bouquet {
   position: absolute;
@@ -557,7 +594,11 @@ address { font-style: normal; }
 .rsvp-bouquet-left { left: -8%; }
 .rsvp-bouquet-right { right: -8%; }
 
-.replay-sheet { padding: 0.4rem 1rem 5.5rem; text-align: center; background: var(--ivory); }
+.replay-sheet {
+  padding: 0.4rem 1rem calc(5.5rem + env(safe-area-inset-bottom, 0px));
+  text-align: center;
+  background: var(--ivory);
+}
 .replay-btn {
   background: none;
   border: 0;
