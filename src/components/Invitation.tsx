@@ -1,21 +1,22 @@
 import { motion, useReducedMotion } from "motion/react";
-import { wedding } from "../config/wedding";
-import { formatHeroDate } from "../lib/weddingUtils";
-import { Bouquet, CornerSpray, Flourish, SwanLake } from "./art";
+import { Flourish } from "./art";
+import { Hero } from "./Hero";
+import { LetterIntro } from "./LetterIntro";
 import { Countdown } from "./Countdown";
 import { EventTimeline } from "./EventTimeline";
-import { Rsvp } from "./Rsvp";
+import { Closing } from "./Closing";
 import { Venue } from "./Venue";
-import { WeddingParty } from "./WeddingParty";
 
 type InvitationProps = {
   onReplay: () => void;
+  heroVideoActive: boolean;
+  heroPlayNonce: number;
+  /** False while the envelope is still opening — keeps the hero hidden underneath. */
+  revealed: boolean;
 };
 
-export function Invitation({ onReplay }: InvitationProps) {
+export function Invitation({ onReplay, heroVideoActive, heroPlayNonce, revealed }: InvitationProps) {
   const reduced = useReducedMotion();
-  const heroDate = formatHeroDate(wedding.ceremonyAt, wedding.timeZone);
-
   function scrollToLetter() {
     document.getElementById("letter")?.scrollIntoView({
       behavior: reduced ? "auto" : "smooth",
@@ -25,47 +26,19 @@ export function Invitation({ onReplay }: InvitationProps) {
   return (
     <motion.div
       className="invitation"
-      initial={reduced ? false : { opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: reduced ? 0.2 : 1.15, delay: reduced ? 0 : 0.7 }}
+      initial={false}
+      animate={{ opacity: revealed ? 1 : 0 }}
+      transition={{ duration: reduced ? 0.15 : revealed ? 0.85 : 0, ease: [0.22, 1, 0.36, 1] }}
+      aria-hidden={!revealed}
     >
-      <section className="hero" id="invitation" aria-labelledby="couple-names">
-        <div className="arch-frame" aria-hidden="true" />
-        <CornerSpray className="hero-corner hero-corner-left" />
-        <CornerSpray className="hero-corner hero-corner-right" flip />
-        <div className="hero-copy">
-          <p className="script-title hero-eyebrow">{wedding.heroEyebrow}</p>
-          {heroDate ? <p className="hero-date">{heroDate}</p> : null}
-          <h1 id="couple-names" tabIndex={-1}>
-            <span>{wedding.partnerOne}</span>
-            <span className="amp">&</span>
-            <span>{wedding.partnerTwo}</span>
-          </h1>
-          <button type="button" className="scroll-cue" onClick={scrollToLetter}>
-            <span>Scroll down</span>
-            <span aria-hidden="true">⌄</span>
-          </button>
-        </div>
-        <SwanLake />
-      </section>
+      <Hero onScrollDown={scrollToLetter} videoActive={heroVideoActive} playNonce={heroPlayNonce} />
 
-      <section className="sheet letter-sheet" id="letter" aria-labelledby="letter-names">
-        <div className="letter-banner">
-          <Bouquet className="letter-bouquet" />
-          <Bouquet className="letter-bouquet" flip />
-        </div>
-        <h2 id="letter-names" className="letter-names">
-          {wedding.partnerOne} & {wedding.partnerTwo}
-        </h2>
-        <p className="letter-lead">{wedding.invitationLead}</p>
-        <p className="letter-body">{wedding.invitationBody}</p>
-      </section>
+      <LetterIntro />
 
       <Countdown />
       <EventTimeline />
       <Venue />
-      <WeddingParty />
-      <Rsvp />
+      <Closing />
 
       <section className="replay-sheet">
         <Flourish className="flourish center-flourish" />

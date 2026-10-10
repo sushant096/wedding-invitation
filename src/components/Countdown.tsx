@@ -5,7 +5,8 @@ import { formatLongWhen, getRemaining, pad2, parseInstant, type Remaining } from
 const empty: Remaining = { days: 0, hours: 0, minutes: 0, seconds: 0, elapsed: false };
 
 export function Countdown() {
-  const target = parseInstant(wedding.ceremonyAt);
+  const countdownIso = wedding.celebrationStartsAt ?? wedding.ceremonyAt;
+  const target = parseInstant(countdownIso);
   const [remaining, setRemaining] = useState<Remaining>(() =>
     target === null ? empty : getRemaining(target, Date.now()),
   );
@@ -18,7 +19,7 @@ export function Countdown() {
     return () => window.clearInterval(id);
   }, [target]);
 
-  const when = formatLongWhen(wedding.ceremonyAt, wedding.timeZone);
+  const when = formatLongWhen(countdownIso, wedding.timeZone);
 
   return (
     <section className="sheet countdown-sheet" id="countdown" aria-labelledby="countdown-title">
@@ -51,12 +52,7 @@ export function Countdown() {
             </span>
             <Count value={pad2(remaining.seconds)} label="Seconds" />
           </div>
-          {when ? (
-            <p className="when-line">
-              Until {when}
-              <span> · {wedding.timezoneLabel}</span>
-            </p>
-          ) : null}
+          {when ? <p className="when-line">Until {when}</p> : null}
         </>
       )}
     </section>

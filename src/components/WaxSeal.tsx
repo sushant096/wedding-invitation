@@ -20,7 +20,7 @@ export function WaxSeal({ initials, tone = "ivory", label, className }: WaxSealP
   const ivory = tone === "ivory";
   const face = ivory ? "#f6f1e8" : "#7a1c2c";
   const rim = ivory ? "#e7dccb" : "#5c1220";
-  const ink = ivory ? "#7a6248" : "#f8efe6";
+  const ink = ivory ? "#7a6248" : "#f3e6c4";
   const gloss = ivory ? "rgba(255,255,255,0.7)" : "rgba(255,220,210,0.35)";
   return (
     <svg

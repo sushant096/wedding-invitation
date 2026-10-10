@@ -6,7 +6,9 @@ import { Flourish, MapSketch, VillaArt } from "./art";
 export function Venue() {
   const [imageFailed, setImageFailed] = useState(false);
   const [notice, setNotice] = useState("");
-  const when = formatLongWhen(wedding.ceremonyAt, wedding.timeZone);
+  const when =
+    wedding.venue.dateLine ??
+    formatLongWhen(wedding.ceremonyAt, wedding.timeZone);
   const showPhoto = Boolean(wedding.venue.imageSrc) && !imageFailed;
 
   function openMaps() {

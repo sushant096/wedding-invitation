@@ -76,11 +76,13 @@ export function EventTimeline() {
                   onClick={() => setOpenId(open ? null : event.id)}
                 >
                   <span className="event-time">{event.time}</span>
-                  <span className="event-name">{event.name}</span>
+                  <span className="event-main">
+                    <span className="event-date">{event.date}</span>
+                    <span className="event-name">{event.name}</span>
+                  </span>
                 </button>
                 {open ? (
                   <div className="event-detail" data-testid={`event-detail-${event.id}`}>
-                    <p>{event.date}</p>
                     <p>{event.description}</p>
                     <p>{event.venue}</p>
                   </div>

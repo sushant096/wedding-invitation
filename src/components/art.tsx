@@ -1,4 +1,4 @@
-import type { PartyAttire } from "../config/wedding";
+type PartyAttire = "gown" | "suit" | "tuxedo";
 
 export function Flourish({ className }: { className?: string }) {
   return (

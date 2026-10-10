@@ -9,6 +9,7 @@ type Phase = "sealed" | "opening" | "open";
 
 export function App() {
   const [phase, setPhase] = useState<Phase>("sealed");
+  const [heroPlayNonce, setHeroPlayNonce] = useState(0);
   const [entryKey, setEntryKey] = useState(0);
   const openingLock = useRef(false);
   const music = useMusic(wedding.musicSrc);
@@ -28,6 +29,7 @@ export function App() {
     if (openingLock.current) return;
     openingLock.current = true;
     void music.play();
+    setHeroPlayNonce((n) => n + 1);
     setPhase("opening");
   }, [music]);
 
@@ -52,7 +54,14 @@ export function App() {
       <a className="skip-link" href="#invitation">
         Skip to invitation
       </a>
-      {phase !== "sealed" ? <Invitation onReplay={replay} /> : null}
+      {phase !== "sealed" ? (
+        <Invitation
+          onReplay={replay}
+          heroVideoActive
+          heroPlayNonce={heroPlayNonce}
+          revealed={phase === "open"}
+        />
+      ) : null}
       {phase !== "open" ? (
         <Envelope
           key={entryKey}

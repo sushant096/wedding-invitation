@@ -1,8 +1,5 @@
 import { useEffect, type ReactNode } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { wedding } from "../config/wedding";
-import { Bouquet, EmbossPattern } from "./art";
-import { WaxSeal } from "./WaxSeal";
 
 type EnvelopeProps = {
   phase: "sealed" | "opening";
@@ -11,7 +8,9 @@ type EnvelopeProps = {
   musicControl: ReactNode;
 };
 
-const flapEase = [0.45, 0.05, 0.2, 1] as const;
+const lidEase = [0.33, 0.02, 0.18, 1] as const;
+/** Closed lid tilt — top flap reads above the pocket (reference envelope). */
+const LID_REST = -6;
 
 export function Envelope({ phase, onOpen, onOpened, musicControl }: EnvelopeProps) {
   const reduced = useReducedMotion();
@@ -19,80 +18,65 @@ export function Envelope({ phase, onOpen, onOpened, musicControl }: EnvelopeProp
 
   useEffect(() => {
     if (!opening) return;
-    const timer = window.setTimeout(onOpened, reduced ? 480 : 2500);
+    const timer = window.setTimeout(onOpened, reduced ? 420 : 3400);
     return () => window.clearTimeout(timer);
   }, [opening, onOpened, reduced]);
 
   return (
     <motion.div
       className="envelope-screen"
-      initial={{ opacity: 0 }}
-      animate={
-        opening
-          ? { opacity: reduced ? 0 : [1, 1, 0], scale: reduced ? 1 : [1, 1, 1.02] }
-          : { opacity: 1, scale: 1 }
-      }
+      animate={opening ? { opacity: reduced ? 0 : [1, 1, 0] } : { opacity: 1 }}
       transition={
         opening
-          ? { duration: reduced ? 0.45 : 2.4, times: [0, 0.68, 1], ease: "easeInOut" }
-          : { duration: 0.7 }
+          ? { duration: reduced ? 0.4 : 3.25, times: [0, 0.78, 1], ease: "easeInOut" }
+          : { duration: 0.45 }
       }
     >
-      <div className="envelope">
+      <div className="garden-envelope">
         <div className="envelope-interior" />
         <motion.div
-          className="reveal-light"
+          className="seal-glow"
+          aria-hidden="true"
           animate={
             opening
-              ? { opacity: [0, 1, 0.7], scale: reduced ? 1 : [0.2, 1.2, 2.4] }
-              : { opacity: 0, scale: 0.2 }
+              ? { opacity: reduced ? 0 : [0, 1, 1], scale: reduced ? 1 : [0.45, 1, 1.08] }
+              : { opacity: 0, scale: 0.5 }
           }
-          transition={{ duration: reduced ? 0.3 : 1.8, ease: "easeOut" }}
+          transition={{ duration: reduced ? 0.2 : 1.1, ease: "easeOut" }}
         />
-        <Flap
-          className="flap-bottom"
-          opening={opening}
-          reduced={!!reduced}
-          rotate={reduced ? {} : { rotateX: -68 }}
-          delay={0.05}
-        >
-          <EmbossPattern />
-          <Bouquet className="flap-bouquet flap-bouquet-bottom" />
-        </Flap>
-        <Flap
-          className="flap-left"
-          opening={opening}
-          reduced={!!reduced}
-          rotate={reduced ? {} : { rotateY: -72 }}
-          delay={0.12}
-        >
-          <EmbossPattern />
-          <Bouquet className="flap-bouquet flap-bouquet-side" />
-        </Flap>
-        <Flap
-          className="flap-right"
-          opening={opening}
-          reduced={!!reduced}
-          rotate={reduced ? {} : { rotateY: 72 }}
-          delay={0.12}
-        >
-          <EmbossPattern />
-          <Bouquet className="flap-bouquet flap-bouquet-side flap-bouquet-flip" />
-        </Flap>
-        <Flap
-          className="flap-top"
-          opening={opening}
-          reduced={!!reduced}
-          rotate={reduced ? {} : { rotateX: 70 }}
-          delay={0.02}
-        >
-          <EmbossPattern />
-        </Flap>
-        <svg className="envelope-seams" viewBox="0 0 100 100" aria-hidden="true">
-          <path d="M0 0 L50 50 L100 0 M0 100 L50 50 L100 100" fill="none" stroke="rgba(255,236,214,0.88)" strokeWidth="0.7" />
+
+        <div className="flap paper-flap flap-left" />
+        <div className="flap paper-flap flap-right" />
+        <div className="flap paper-flap flap-bottom" />
+
+        <svg className="envelope-seam-shadow" viewBox="0 0 100 160" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="0" y1="0" x2="50" y2="80" />
+          <line x1="100" y1="0" x2="50" y2="80" />
+          <line x1="0" y1="160" x2="50" y2="80" />
+          <line x1="100" y1="160" x2="50" y2="80" />
         </svg>
-        <div className="envelope-music">{musicControl}</div>
-        <div className="seal-anchor">
+
+        <motion.div
+          className={`flap paper-flap flap-top ${opening ? "is-opening" : ""}`}
+          style={{ transformOrigin: "50% 0%" }}
+          animate={
+            opening && !reduced
+              ? { rotateX: [LID_REST, 12, 82], z: [18, 22, 48] }
+              : { rotateX: reduced ? 0 : LID_REST, z: reduced ? 0 : 18, opacity: reduced && opening ? 0 : 1 }
+          }
+          transition={{ duration: reduced ? 0.25 : 1.85, delay: reduced ? 0 : 0.42, times: [0, 0.22, 1], ease: lidEase }}
+        />
+        <motion.div
+          className="lid-seal"
+          style={{ transformOrigin: "50% 0%" }}
+          animate={
+            opening && !reduced
+              ? { rotateX: [LID_REST, 12, 82], z: [28, 32, 58] }
+              : { rotateX: reduced ? 0 : LID_REST, z: reduced ? 0 : 28, opacity: reduced && opening ? 0 : 1 }
+          }
+          transition={{ duration: reduced ? 0.25 : 1.85, delay: reduced ? 0 : 0.42, times: [0, 0.22, 1], ease: lidEase }}
+        >
+          <div className="seal-anchor">
           <motion.button
             type="button"
             className="seal-button"
@@ -102,61 +86,34 @@ export function Envelope({ phase, onOpen, onOpened, musicControl }: EnvelopeProp
             data-testid="open-seal"
             animate={
               opening
-                ? { scale: 1.12, opacity: 0, y: -30 }
+                ? {
+                    filter: [
+                      "drop-shadow(0 8px 10px rgba(60, 20, 24, 0.3))",
+                      "drop-shadow(0 0 14px rgba(255, 210, 130, 0.95)) drop-shadow(0 18px 16px rgba(80, 30, 10, 0.35))",
+                      "drop-shadow(0 22px 18px rgba(40, 16, 8, 0.45))",
+                    ],
+                  }
                 : reduced
-                  ? { scale: 1, opacity: 1, y: 0 }
-                  : { scale: [1, 1.04, 1], opacity: 1, y: 0 }
+                  ? { scale: 1 }
+                  : { scale: [1, 1.025, 1] }
             }
             transition={
               opening
-                ? { duration: 0.9 }
-                : { duration: 2.8, repeat: Infinity, ease: "easeInOut" }
+                ? { duration: 1.85, delay: 0.42, times: [0, 0.25, 1], ease: "easeOut" }
+                : { duration: 3.2, repeat: Infinity, ease: "easeInOut" }
             }
           >
-            <WaxSeal initials={wedding.monogram} tone="ivory" />
+            <img className="wax-photo" src="/images/wax-seal-tight.png" alt="" />
           </motion.button>
-        </div>
-        <p className={`seal-hint ${opening ? "is-hidden" : ""}`}>Tap the seal</p>
-      </div>
-    </motion.div>
-  );
-}
+          </div>
+        </motion.div>
 
-function Flap({
-  className,
-  opening,
-  reduced,
-  rotate,
-  delay,
-  children,
-}: {
-  className: string;
-  opening: boolean;
-  reduced: boolean;
-  rotate: Record<string, number>;
-  delay: number;
-  children: ReactNode;
-}) {
-  return (
-    <motion.div
-      className={`flap ${className}`}
-      animate={opening ? { ...rotate, opacity: reduced ? 0 : 1 } : { rotateX: 0, rotateY: 0, opacity: 1 }}
-      transition={{ duration: reduced ? 0.25 : 1.45, delay: reduced ? 0 : delay, ease: flapEase }}
-    >
-      <motion.div
-        className="flap-gold"
-        animate={
-          opening
-            ? { opacity: 0.95 }
-            : reduced
-              ? { opacity: 0.25 }
-              : { opacity: [0.15, 0.7, 0.15] }
-        }
-        transition={
-          opening ? { duration: 0.6 } : { duration: 4.5, repeat: Infinity, ease: "easeInOut" }
-        }
-      />
-      {children}
+        <p className={`seal-hint ${opening ? "is-hidden" : ""}`}>
+          <span className="film-chevron" aria-hidden="true" />
+          Tap to open
+        </p>
+        <div className="envelope-music">{musicControl}</div>
+      </div>
     </motion.div>
   );
 }

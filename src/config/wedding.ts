@@ -9,8 +9,6 @@
  * of your wedding until you edit them.
  */
 
-export type PartyAttire = "gown" | "suit" | "tuxedo";
-
 export type WeddingEvent = {
   id: string;
   name: string;
@@ -21,127 +19,97 @@ export type WeddingEvent = {
   venue: string;
 };
 
-export type PartyMember = {
-  name: string;
-  attire: PartyAttire;
-  color: string;
-};
-
 export const wedding = {
-  partnerOne: "Bride",
-  partnerTwo: "Groom",
-  /** Initials pressed into the ivory envelope seal. */
-  monogram: "B&G",
+  partnerOne: "Akansha",
+  partnerTwo: "Sushant",
+  /** Initials pressed into the envelope seal. */
+  monogram: "S&A",
 
   /**
-   * Absolute ceremony time. The offset fixes the timezone.
-   * Hero date, location line, countdown, and calendar file all use this value.
-   * Placeholder only — change it.
+   * Main wedding moment (barat arrival). Calendar download and venue time use this.
    */
-  ceremonyAt: "2027-04-17T17:00:00+05:30",
+  ceremonyAt: "2026-11-26T20:00:00+05:30",
+  /** Countdown targets the first celebration (Mehndi). */
+  celebrationStartsAt: "2026-11-25T15:00:00+05:30",
   timeZone: "Asia/Kolkata",
-  timezoneLabel: "UTC+05:30",
-
-  heroEyebrow: "Wedding Day",
-  invitationLead: "warmly invite you",
+  heroEyebrow: "Wedding Celebrations",
+  /** Shown under the hero eyebrow when set; otherwise derived from ceremonyAt. */
+  heroDateDisplay: "25-26 Nov 2026",
+  /** Looping arch + swans scene (from your Swans2 reference). */
+  heroVideoSrc: "/video/swans-hero.mp4",
+  heroVideoPoster: "/video/swans-hero-poster.jpg",
+  /** Three-line verse on the parchment panel (Sacred Garden style). */
+  heroVerse: ["Two Souls", "One destiny", "A lifetime written in love"],
+  letterSalutation: "Dear Friends and Family",
   invitationBody:
-    "to celebrate with them as their families come together for their traditional introduction ceremony.",
+    "Join us for an evening of love, laughter, blessings, and unforgettable memories as we begin our forever.",
 
   countdownTitle: "The Celebration Begins In",
   eventsTitle: "Schedule of Events",
   events: [
     {
-      id: "arrival",
-      name: "Guest Arrival",
-      date: "17 April 2027",
-      time: "5 PM",
-      description: "Guests are welcomed and shown to their seats.",
-      venue: "Venue Name",
+      id: "mehndi",
+      name: "Mehndi",
+      date: "25 November 2026",
+      time: "3 PM onwards",
+      description: "An afternoon of henna, colour, music, and celebration.",
+      venue: "Venue details on your invitation",
     },
     {
-      id: "ceremony",
-      name: "Nikkah Ceremony",
-      date: "17 April 2027",
-      time: "6 PM",
-      description: "The ceremony begins. Please be seated beforehand.",
-      venue: "Venue Name",
+      id: "ring",
+      name: "Ring Ceremony",
+      date: "25 November 2026",
+      time: "7 PM onwards",
+      description: "Join us as we exchange rings with our families and friends.",
+      venue: "Starland Banquet Hall, Mayapuri, New Delhi",
     },
     {
-      id: "mocktails",
-      name: "Mocktail Hour",
-      date: "17 April 2027",
-      time: "7 PM",
-      description: "A pause for greetings and refreshments.",
-      venue: "Venue Name",
+      id: "haldi",
+      name: "Haldi",
+      date: "26 November 2026",
+      time: "11 AM onwards",
+      description: "A joyful morning of haldi blessings and laughter.",
+      venue: "Venue details on your invitation",
     },
     {
-      id: "dinner",
-      name: "Dinner",
-      date: "17 April 2027",
+      id: "lunch",
+      name: "Lunch",
+      date: "26 November 2026",
+      time: "2 PM onwards",
+      description: "A relaxed lunch with loved ones before the evening festivities.",
+      venue: "Venue details on your invitation",
+    },
+    {
+      id: "barat-departure",
+      name: "Departure of Barat",
+      date: "26 November 2026",
+      time: "7 PM onwards",
+      description: "The barat sets out for the wedding venue.",
+      venue: "As shared with invited guests",
+    },
+    {
+      id: "barat-arrival",
+      name: "Arrival of Barat",
+      date: "26 November 2026",
       time: "8 PM",
-      description: "Dinner is served.",
-      venue: "Venue Name",
-    },
-    {
-      id: "dance",
-      name: "Dance",
-      date: "17 April 2027",
-      time: "9 PM",
-      description: "The evening opens onto the dance floor.",
-      venue: "Venue Name",
+      description: "Welcome the barat and begin the wedding celebrations.",
+      venue: "Starland Banquet Hall, Mayapuri, New Delhi",
     },
   ] satisfies WeddingEvent[],
 
   venue: {
     title: "Location",
-    name: "Venue Name",
+    name: "Starland Banquet Hall",
+    dateLine: "25–26 November 2026",
     /**
-     * Leave empty until you have a real Google Maps link, for example
-     * https://maps.google.com/?q=Your+Venue
-     * The button opens this URL and no other place.
+     * Opens in Google Maps. Update if you prefer a pinned link.
      */
-    mapsUrl: "",
-    /**
-     * Optional local photograph. Put a file in public/images and set
-     * imageSrc to "/images/venue.jpg". An original illustration is used
-     * when this is empty or the file fails to load.
-     */
+    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Starland+Banquet+Hall+Mayapuri+New+Delhi",
     imageSrc: "",
-    addressLines: ["Street address", "City, Region", "Country"],
+    addressLines: ["Mayapuri", "New Delhi", "India"],
   },
 
-  dressCode: {
-    title: "Dress Code",
-    message:
-      "We kindly ask guests to adorn Rose Gold, Burgundy and Brown tones for the celebration.",
-  },
-
-  /**
-   * Leave name as "" to match the reference, which shows the group without captions.
-   * Fill names in if you want a labeled wedding party.
-   */
-  party: [
-    { name: "", attire: "gown", color: "#1b1b1b" },
-    { name: "", attire: "suit", color: "#1c1c1c" },
-    { name: "", attire: "gown", color: "#7a2433" },
-    { name: "", attire: "tuxedo", color: "#6b1c2c" },
-    { name: "", attire: "gown", color: "#8d3144" },
-    { name: "", attire: "suit", color: "#242424" },
-  ] satisfies PartyMember[],
-
-  rsvp: {
-    title: "Confirm Your Attendance",
-    intro:
-      "To help us prepare for a joyful celebration, kindly confirm your attendance.",
-    closing: "Hope to see you there!",
-    /**
-     * Digits only, with country code and no plus sign.
-     * Example shape: 9198XXXXXXXX. Leave empty until you are ready.
-     */
-    whatsappNumber: "",
-    messageTemplate:
-      "Hello, this is {name}. {attendance} Number of guests attending: {guests}.",
-  },
+  closingMessage: "Hope to see you there!",
 
   /** Drop an MP3 at public/audio/invitation.mp3 or change this path. */
   musicSrc: "/audio/invitation.mp3",
