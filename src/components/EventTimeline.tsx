@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { wedding } from "../config/wedding";
-import { Flourish, RoseMark } from "./art";
+import { RoseMark } from "./art";
 
 export function EventTimeline() {
   const reduced = useReducedMotion();
   const [active, setActive] = useState(0);
   const [openId, setOpenId] = useState<string | null>(null);
-  const [roseY, setRoseY] = useState(28);
-  const listRef = useRef<HTMLDivElement>(null);
+  const [roseY, setRoseY] = useState(72);
   const itemRefs = useRef<Array<HTMLLIElement | null>>([]);
 
   useEffect(() => {
@@ -39,15 +38,9 @@ export function EventTimeline() {
   }, [openId]);
 
   return (
-    <section className="sheet events-sheet" id="events" aria-labelledby="events-title">
-      <div className="title-row">
-        <Flourish className="flourish" />
-        <h2 id="events-title" className="script-title">
-          {wedding.eventsTitle}
-        </h2>
-        <Flourish className="flourish flourish-flip" />
-      </div>
-      <div className="timeline" ref={listRef}>
+    <div className="schedule-overlay">
+      <h2 id="events-title" className="visually-hidden">{wedding.eventsTitle}</h2>
+      <div className="timeline">
         <div className="timeline-rail" aria-hidden="true" />
         <motion.div
           className="timeline-rose"
@@ -90,6 +83,6 @@ export function EventTimeline() {
           })}
         </ul>
       </div>
-    </section>
+    </div>
   );
 }

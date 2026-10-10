@@ -9,8 +9,12 @@ export function useMusic(src: string) {
     const audio = new Audio(src);
     audio.loop = true;
     audio.preload = "auto";
+    const onReady = () => setAvailable(true);
     const markMissing = () => setAvailable(false);
+    audio.addEventListener("canplaythrough", onReady, { once: true });
+    audio.addEventListener("loadeddata", onReady, { once: true });
     audio.addEventListener("error", markMissing);
+    audio.load();
     audioRef.current = audio;
     return () => {
       audio.pause();
@@ -29,7 +33,6 @@ export function useMusic(src: string) {
       return true;
     } catch {
       setPlaying(false);
-      if (audio.error) setAvailable(false);
       return false;
     }
   }, []);

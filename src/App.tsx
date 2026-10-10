@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { wedding } from "./config/wedding";
-import { ControlDock, MusicButton } from "./components/Controls";
+import { MusicButton } from "./components/Controls";
 import { Envelope } from "./components/Envelope";
 import { Invitation } from "./components/Invitation";
 import { useMusic } from "./hooks/useMusic";
@@ -49,9 +49,6 @@ export function App() {
 
   return (
     <div className={`app phase-${phase}`}>
-      <a className="skip-link" href="#invitation">
-        Skip to invitation
-      </a>
       {phase !== "sealed" ? <Invitation onReplay={replay} /> : null}
       {phase !== "open" ? (
         <Envelope
@@ -70,14 +67,17 @@ export function App() {
           }
         />
       ) : null}
-      <ControlDock
-        visible={phase === "open"}
-        playing={music.playing}
-        available={music.available}
-        onToggleMusic={() => {
-          void music.toggle();
-        }}
-      />
+      {phase === "open" ? (
+        <div className="music-fab">
+          <MusicButton
+            playing={music.playing}
+            available={music.available}
+            onToggle={() => {
+              void music.toggle();
+            }}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }

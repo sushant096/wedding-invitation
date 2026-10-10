@@ -4,3 +4,5 @@ dist
 *.local
 references/frames
 references/crops
+references/compare-ref
+references/compare-created

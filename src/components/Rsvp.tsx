@@ -1,8 +1,7 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { wedding } from "../config/wedding";
 import { buildCalendarIcs, buildWhatsappUrl, fillTemplate } from "../lib/weddingUtils";
-import { Bouquet } from "./art";
-import { WaxSeal } from "./WaxSeal";
+import { ReferencePanel } from "./ReferencePanel";
 
 type Attendance = "" | "accept" | "decline";
 
@@ -11,32 +10,23 @@ export function Rsvp() {
   const titleId = useId();
 
   return (
-    <section className="sheet rsvp-sheet" id="rsvp" aria-labelledby="rsvp-heading">
-      <Bouquet className="rsvp-bouquet rsvp-bouquet-left" />
-      <Bouquet className="rsvp-bouquet rsvp-bouquet-right" flip />
-      <h2 id="rsvp-heading" className="script-title rsvp-heading">
-        {wedding.rsvp.title}
-      </h2>
-      <p className="rsvp-intro">{wedding.rsvp.intro}</p>
-      <button
-        type="button"
-        className="rsvp-seal-button"
-        onClick={() => setOpen(true)}
-        data-testid="rsvp-open"
-        aria-label="Open the RSVP form"
+    <>
+      <ReferencePanel
+        id="rsvp"
+        src="/assets/rsvp.jpg"
+        alt="RSVP section"
+        className="panel-rsvp"
       >
-        <WaxSeal initials="RSVP" tone="burgundy" className="rsvp-seal" />
-        <span className="rsvp-chevron" aria-hidden="true">
-          ∧
-        </span>
-        <span className="script-hint">Click to open</span>
-      </button>
-      <p className="hope">{wedding.rsvp.closing}</p>
-      <p className="hope-names">
-        {wedding.partnerOne} & {wedding.partnerTwo}
-      </p>
+        <button
+          type="button"
+          className="rsvp-hit"
+          onClick={() => setOpen(true)}
+          data-testid="rsvp-open"
+          aria-label="Open the RSVP form"
+        />
+      </ReferencePanel>
       {open ? <RsvpDialog titleId={titleId} onClose={() => setOpen(false)} /> : null}
-    </section>
+    </>
   );
 }
 
@@ -53,20 +43,6 @@ function RsvpDialog({ titleId, onClose }: { titleId: string; onClose: () => void
     dialogRef.current?.querySelector<HTMLElement>("[data-testid=rsvp-name]")?.focus();
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
-      if (event.key !== "Tab" || !dialogRef.current) return;
-      const nodes = Array.from(
-        dialogRef.current.querySelectorAll<HTMLElement>("input, button, a, textarea, select"),
-      ).filter((node) => !node.hasAttribute("disabled"));
-      if (nodes.length === 0) return;
-      const first = nodes[0];
-      const last = nodes[nodes.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
     };
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKey);
@@ -99,7 +75,7 @@ function RsvpDialog({ titleId, onClose }: { titleId: string; onClose: () => void
     );
     if (!phoneUrl) {
       setErrors([
-        "This form opens WhatsApp. It is not sent to a website server. Add rsvp.whatsappNumber in src/config/wedding.ts before replies can be delivered.",
+        "This form opens WhatsApp. Add rsvp.whatsappNumber in src/config/wedding.ts before replies can be delivered.",
       ]);
       return null;
     }

@@ -1,12 +1,6 @@
 /**
- * Everything a guest can read or follow lives here.
- * Replace every placeholder before you share the invitation.
- * Do not put a real address, map pin, or phone number in this file
- * until you mean to publish them.
- *
- * Sample event titles follow the structure of the reference recording
- * (arrival, ceremony, mocktails, dinner, dance). They are not a record
- * of your wedding until you edit them.
+ * Reference-matched demo content from references/reference-video.mp4.mp4.
+ * Edit for your own wedding when you are ready to personalize.
  */
 
 export type PartyAttire = "gown" | "suit" | "tuxedo";
@@ -14,7 +8,6 @@ export type PartyAttire = "gown" | "suit" | "tuxedo";
 export type WeddingEvent = {
   id: string;
   name: string;
-  /** Shown when the guest opens the row. Can differ from the ceremony date. */
   date: string;
   time: string;
   description: string;
@@ -28,20 +21,17 @@ export type PartyMember = {
 };
 
 export const wedding = {
-  partnerOne: "Bride",
-  partnerTwo: "Groom",
-  /** Initials pressed into the ivory envelope seal. */
-  monogram: "B&G",
+  partnerOne: "Gabriella",
+  partnerTwo: "Zachary",
+  monogram: "G&Z",
 
-  /**
-   * Absolute ceremony time. The offset fixes the timezone.
-   * Hero date, location line, countdown, and calendar file all use this value.
-   * Placeholder only — change it.
-   */
-  ceremonyAt: "2027-04-17T17:00:00+05:30",
-  timeZone: "Asia/Kolkata",
-  timezoneLabel: "UTC+05:30",
+  /** Matches the reference location line (Friday, November 20, 2026 at 5:00 PM). */
+  ceremonyAt: "2026-11-20T17:00:00-08:00",
+  timeZone: "America/Los_Angeles",
+  timezoneLabel: "Pacific Time",
 
+  /** Shown on the hero panel (reference uses 10.10.26). */
+  heroDateLabel: "10.10.26",
   heroEyebrow: "Wedding Day",
   invitationLead: "warmly invite you",
   invitationBody:
@@ -53,61 +43,55 @@ export const wedding = {
     {
       id: "arrival",
       name: "Guest Arrival",
-      date: "17 April 2027",
+      date: "November 20, 2026",
       time: "5 PM",
       description: "Guests are welcomed and shown to their seats.",
-      venue: "Venue Name",
+      venue: "Brick",
     },
     {
       id: "ceremony",
       name: "Nikkah Ceremony",
-      date: "17 April 2027",
+      date: "November 20, 2026",
       time: "6 PM",
       description: "The ceremony begins. Please be seated beforehand.",
-      venue: "Venue Name",
+      venue: "Brick",
     },
     {
       id: "mocktails",
       name: "Mocktail Hour",
-      date: "17 April 2027",
+      date: "November 20, 2026",
       time: "7 PM",
       description: "A pause for greetings and refreshments.",
-      venue: "Venue Name",
+      venue: "Brick",
     },
     {
       id: "dinner",
       name: "Dinner",
-      date: "17 April 2027",
+      date: "November 20, 2026",
       time: "8 PM",
       description: "Dinner is served.",
-      venue: "Venue Name",
+      venue: "Brick",
     },
     {
       id: "dance",
       name: "Dance",
-      date: "17 April 2027",
+      date: "November 20, 2026",
       time: "9 PM",
       description: "The evening opens onto the dance floor.",
-      venue: "Venue Name",
+      venue: "Brick",
     },
   ] satisfies WeddingEvent[],
 
   venue: {
     title: "Location",
-    name: "Venue Name",
-    /**
-     * Leave empty until you have a real Google Maps link, for example
-     * https://maps.google.com/?q=Your+Venue
-     * The button opens this URL and no other place.
-     */
-    mapsUrl: "",
-    /**
-     * Optional local photograph. Put a file in public/images and set
-     * imageSrc to "/images/venue.jpg". An original illustration is used
-     * when this is empty or the file fails to load.
-     */
-    imageSrc: "",
-    addressLines: ["Street address", "City, Region", "Country"],
+    name: "Brick",
+    mapsUrl: "https://maps.google.com/?q=2863+Historic+Decatur+Rd+San+Diego+CA+92106",
+    imageSrc: "/assets/location.jpg",
+    addressLines: [
+      "2863 Historic Decatur Rd",
+      "San Diego, CA 92106",
+      "United States",
+    ],
   },
 
   dressCode: {
@@ -116,10 +100,6 @@ export const wedding = {
       "We kindly ask guests to adorn Rose Gold, Burgundy and Brown tones for the celebration.",
   },
 
-  /**
-   * Leave name as "" to match the reference, which shows the group without captions.
-   * Fill names in if you want a labeled wedding party.
-   */
   party: [
     { name: "", attire: "gown", color: "#1b1b1b" },
     { name: "", attire: "suit", color: "#1c1c1c" },
@@ -134,16 +114,11 @@ export const wedding = {
     intro:
       "To help us prepare for a joyful celebration, kindly confirm your attendance.",
     closing: "Hope to see you there!",
-    /**
-     * Digits only, with country code and no plus sign.
-     * Example shape: 9198XXXXXXXX. Leave empty until you are ready.
-     */
     whatsappNumber: "",
     messageTemplate:
       "Hello, this is {name}. {attendance} Number of guests attending: {guests}.",
   },
 
-  /** Drop an MP3 at public/audio/invitation.mp3 or change this path. */
   musicSrc: "/audio/invitation.mp3",
   shareText: "You are invited to our wedding celebration.",
 } as const;
