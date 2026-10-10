@@ -121,16 +121,16 @@ address { font-style: normal; }
 .hero-eyebrow {
   margin: 0;
   font-family: var(--names);
-  font-size: clamp(2.15rem, 8vw, 2.95rem);
+  font-size: clamp(2.25rem, 8.2vw, 3.05rem);
   line-height: 1.1;
-  color: #a8721c;
-  -webkit-text-stroke: 0.3px rgba(92, 58, 18, 0.5);
+  color: #8f5a18;
+  -webkit-text-stroke: 0.4px rgba(72, 46, 14, 0.58);
   paint-order: stroke fill;
   text-shadow:
-    0 0 18px rgba(255, 252, 245, 0.92),
-    0 1px 0 rgba(255, 255, 255, 0.9),
-    0 2px 0 rgba(140, 96, 36, 0.5),
-    0 3px 12px rgba(48, 32, 18, 0.32);
+    0 0 20px rgba(255, 252, 245, 0.95),
+    0 1px 0 rgba(255, 255, 255, 0.92),
+    0 2px 0 rgba(120, 80, 28, 0.58),
+    0 3px 14px rgba(40, 26, 12, 0.36);
 }
 .hero-date-gold {
   margin: 0.45rem 0 0;
@@ -828,8 +828,7 @@ address { font-style: normal; }
   inset: 0;
   background: #f4efe6 url("/images/envelope-paper.jpg") center / 100% 100% no-repeat;
   transform-style: preserve-3d;
-  backface-visibility: hidden;
-  will-change: transform;
+  backface-visibility: visible;
 }
 .flap-left {
   clip-path: polygon(0 0, 0 100%, 50% 50%);
@@ -887,10 +886,9 @@ address { font-style: normal; }
   background:
     linear-gradient(to bottom, transparent 44%, rgba(70, 50, 36, 0.22) 49.5%, transparent 56%),
     linear-gradient(165deg, rgba(255, 255, 255, 0.28) 0%, transparent 36%);
-  transition: background 0.65s ease, opacity 0.5s ease;
 }
 .flap-top.is-opening::after {
-  background: linear-gradient(to top, rgba(255, 214, 140, 0.75), rgba(255, 214, 140, 0) 42%);
+  background: linear-gradient(to top, rgba(255, 214, 140, 0.92), rgba(255, 214, 140, 0) 38%);
 }
 .envelope-seam-shadow {
   position: absolute;
@@ -908,7 +906,6 @@ address { font-style: normal; }
 .garden-envelope.is-opening .envelope-seam-shadow {
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.45s ease 0.12s, visibility 0s linear 0.55s;
 }
 .flap-sheen {
   position: absolute;
@@ -1000,7 +997,6 @@ address { font-style: normal; }
   text-transform: uppercase;
   text-align: center;
   pointer-events: none;
-  transition: opacity 0.35s ease;
 }
 .seal-hint span {
   display: block;

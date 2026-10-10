@@ -8,18 +8,15 @@ type EnvelopeProps = {
   musicControl: ReactNode;
 };
 
-/** Smooth lift — avoids the harsh “snap” of an ease with a near-zero second control point. */
-const lidEase = [0.42, 0, 0.18, 1] as const;
+const lidEase = [0.33, 0.02, 0.18, 1] as const;
 /** Closed lid tilt — top flap reads above the pocket (reference envelope). */
 const LID_REST = -6;
-const OPEN_DELAY_S = 0.18;
-const OPEN_FLAP_S = 2.25;
-const OPEN_END_MS = Math.round((OPEN_DELAY_S + OPEN_FLAP_S) * 1000 + 1100);
-const lidOpenTransition = {
-  duration: OPEN_FLAP_S,
-  delay: OPEN_DELAY_S,
+const lidFlapTransition = {
+  duration: 1.85,
+  delay: 0.42,
+  times: [0, 0.22, 1] as number[],
   ease: lidEase,
-} as const;
+};
 
 const waxGlowIdle = [
   "drop-shadow(0 0 5px rgba(255, 225, 170, 0.85)) drop-shadow(0 0 14px rgba(255, 195, 115, 0.55)) brightness(1.03) saturate(1.05)",
@@ -39,7 +36,7 @@ export function Envelope({ phase, onOpen, onOpened, musicControl }: EnvelopeProp
 
   useEffect(() => {
     if (!opening) return;
-    const timer = window.setTimeout(onOpened, reduced ? 420 : OPEN_END_MS);
+    const timer = window.setTimeout(onOpened, reduced ? 420 : 3400);
     return () => window.clearTimeout(timer);
   }, [opening, onOpened, reduced]);
 
@@ -49,7 +46,7 @@ export function Envelope({ phase, onOpen, onOpened, musicControl }: EnvelopeProp
       animate={opening ? { opacity: reduced ? 0 : [1, 1, 0] } : { opacity: 1 }}
       transition={
         opening
-          ? { duration: reduced ? 0.4 : OPEN_END_MS / 1000, times: [0, 0.82, 1], ease: [0.4, 0, 0.2, 1] }
+          ? { duration: reduced ? 0.4 : 3.25, times: [0, 0.78, 1], ease: "easeInOut" }
           : { duration: 0.45 }
       }
     >
@@ -57,10 +54,14 @@ export function Envelope({ phase, onOpen, onOpened, musicControl }: EnvelopeProp
         <motion.div
           className="envelope-interior"
           aria-hidden="true"
-          animate={opening && !reduced ? { opacity: [0.94, 1] } : { opacity: 1 }}
+          animate={
+            opening && !reduced
+              ? { opacity: [0.85, 1, 1.15] }
+              : { opacity: 1 }
+          }
           transition={
             opening
-              ? { ...lidOpenTransition, duration: OPEN_FLAP_S * 0.85 }
+              ? { duration: 1.85, delay: 0.42, times: [0, 0.35, 1], ease: "easeOut" }
               : { duration: 0.3 }
           }
         />
@@ -81,20 +82,32 @@ export function Envelope({ phase, onOpen, onOpened, musicControl }: EnvelopeProp
           style={{ transformOrigin: "50% 0%" }}
           animate={
             opening && !reduced
-              ? { rotateX: [LID_REST, 76] }
-              : { rotateX: reduced ? 0 : LID_REST, opacity: reduced && opening ? 0 : 1 }
+              ? { rotateX: [LID_REST, 12, 82], z: [18, 22, 48] }
+              : { rotateX: reduced ? 0 : LID_REST, z: reduced ? 0 : 18, opacity: reduced && opening ? 0 : 1 }
           }
-          transition={reduced ? { duration: 0.25 } : opening ? lidOpenTransition : { duration: 0.35, ease: lidEase }}
+          transition={
+            reduced
+              ? { duration: 0.25 }
+              : opening
+                ? lidFlapTransition
+                : { duration: 0.35, ease: lidEase }
+          }
         />
         <motion.div
           className="lid-seal"
           style={{ transformOrigin: "50% 0%" }}
           animate={
             opening && !reduced
-              ? { rotateX: [LID_REST, 76] }
-              : { rotateX: reduced ? 0 : LID_REST, opacity: reduced && opening ? 0 : 1 }
+              ? { rotateX: [LID_REST, 12, 82], z: [28, 32, 58] }
+              : { rotateX: reduced ? 0 : LID_REST, z: reduced ? 0 : 28, opacity: reduced && opening ? 0 : 1 }
           }
-          transition={reduced ? { duration: 0.25 } : opening ? lidOpenTransition : { duration: 0.35, ease: lidEase }}
+          transition={
+            reduced
+              ? { duration: 0.25 }
+              : opening
+                ? lidFlapTransition
+                : { duration: 0.35, ease: lidEase }
+          }
         >
           <div className="seal-anchor">
             <motion.button
@@ -123,7 +136,7 @@ export function Envelope({ phase, onOpen, onOpened, musicControl }: EnvelopeProp
                     }
                     transition={
                       opening
-                        ? { ...lidOpenTransition, duration: OPEN_FLAP_S * 0.9 }
+                        ? { duration: 1.85, delay: 0.42, times: [0, 0.32, 1], ease: "easeOut" }
                         : { duration: 2.6, repeat: Infinity, ease: "easeInOut" }
                     }
                   />
@@ -141,7 +154,7 @@ export function Envelope({ phase, onOpen, onOpened, musicControl }: EnvelopeProp
                   }}
                   transition={
                     opening
-                      ? { ...lidOpenTransition, duration: OPEN_FLAP_S * 0.75 }
+                      ? { duration: 1.85, delay: 0.42, times: [0, 0.28, 1], ease: "easeOut" }
                       : { duration: 2.4, repeat: Infinity, ease: "easeInOut" }
                   }
                 />
@@ -156,7 +169,7 @@ export function Envelope({ phase, onOpen, onOpened, musicControl }: EnvelopeProp
                     }
                     transition={
                       opening
-                        ? { ...lidOpenTransition, duration: OPEN_FLAP_S * 0.85 }
+                        ? { duration: 1.85, delay: 0.42, times: [0, 0.3, 1], ease: "easeOut" }
                         : { duration: 2.2, repeat: Infinity, ease: "easeInOut" }
                     }
                   />
