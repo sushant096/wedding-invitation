@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { wedding } from "../config/wedding";
-import { getRemaining, pad2, parseInstant, type Remaining } from "../lib/weddingUtils";
+import { formatLongWhen, getRemaining, pad2, parseInstant, type Remaining } from "../lib/weddingUtils";
 
 const empty: Remaining = { days: 0, hours: 0, minutes: 0, seconds: 0, elapsed: false };
 
@@ -18,30 +18,48 @@ export function Countdown() {
     return () => window.clearInterval(id);
   }, [target]);
 
-  if (target === null) {
-    return (
-      <p className="config-note ref-only" data-testid="countdown-invalid">
-        Set a valid ceremonyAt timestamp in the wedding config.
-      </p>
-    );
-  }
+  const when = formatLongWhen(wedding.ceremonyAt, wedding.timeZone);
 
   return (
-    <div className="countdown-overlay" data-testid="countdown" role="timer" aria-live="off">
-      <h2 id="countdown-title" className="visually-hidden">{wedding.countdownTitle}</h2>
-      {remaining.elapsed ? (
-        <p className="began ref-only" data-testid="countdown-elapsed">The celebration has begun</p>
-      ) : null}
-      <div className="countdown-row">
-        <Count value={String(remaining.days)} label="Days" />
-        <span className="count-colon" aria-hidden="true">:</span>
-        <Count value={pad2(remaining.hours)} label="Hours" />
-        <span className="count-colon" aria-hidden="true">:</span>
-        <Count value={pad2(remaining.minutes)} label="Minutes" />
-        <span className="count-colon" aria-hidden="true">:</span>
-        <Count value={pad2(remaining.seconds)} label="Seconds" />
-      </div>
-    </div>
+    <section className="sheet countdown-sheet" id="countdown" aria-labelledby="countdown-title">
+      <h2 id="countdown-title" className="script-title">
+        {wedding.countdownTitle}
+      </h2>
+      {target === null ? (
+        <p className="config-note" data-testid="countdown-invalid">
+          Set a valid ceremonyAt timestamp in the wedding config.
+        </p>
+      ) : (
+        <>
+          {remaining.elapsed ? (
+            <p className="began" data-testid="countdown-elapsed">
+              The celebration has begun
+            </p>
+          ) : null}
+          <div className="countdown-row" data-testid="countdown" role="timer" aria-live="off">
+            <Count value={String(remaining.days)} label="Days" />
+            <span className="count-colon" aria-hidden="true">
+              :
+            </span>
+            <Count value={pad2(remaining.hours)} label="Hours" />
+            <span className="count-colon" aria-hidden="true">
+              :
+            </span>
+            <Count value={pad2(remaining.minutes)} label="Minutes" />
+            <span className="count-colon" aria-hidden="true">
+              :
+            </span>
+            <Count value={pad2(remaining.seconds)} label="Seconds" />
+          </div>
+          {when ? (
+            <p className="when-line">
+              Until {when}
+              <span> · {wedding.timezoneLabel}</span>
+            </p>
+          ) : null}
+        </>
+      )}
+    </section>
   );
 }
 
