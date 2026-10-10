@@ -75,6 +75,7 @@ address { font-style: normal; }
   min-height: 100dvh;
   position: relative;
   box-shadow: 0 0 0 1px rgba(90, 50, 40, 0.04);
+  text-align: center;
 }
 
 .gold-script {
@@ -265,7 +266,8 @@ address { font-style: normal; }
 
 .sheet {
   position: relative;
-  padding: 2.2rem 4.6rem 2.6rem 1.25rem;
+  padding: 2.2rem 1.35rem 2.6rem;
+  text-align: center;
   background:
     radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.7), transparent 42%),
     var(--ivory);
@@ -365,6 +367,12 @@ address { font-style: normal; }
 .flourish-flip { transform: scaleX(-1); }
 .center-flourish { margin: 0.2rem auto 0.4rem; }
 
+.events-sheet .timeline {
+  position: relative;
+  margin: 0.6rem auto 0;
+  width: min(100%, 21.5rem);
+  text-align: left;
+}
 .timeline { position: relative; margin-top: 0.6rem; }
 .timeline-list { list-style: none; margin: 0; padding: 0; }
 .event-button {
@@ -416,9 +424,10 @@ address { font-style: normal; }
   pointer-events: none;
 }
 .event-detail {
-  margin: 0 0 0.4rem 8rem;
+  margin: 0 0 0.4rem 5.5rem;
   color: var(--muted);
   font-size: 1.05rem;
+  text-align: left;
 }
 .event-detail p { margin: 0.15rem 0; }
 
@@ -557,6 +566,11 @@ address { font-style: normal; }
   color: var(--rose);
 }
 
+.config-note {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
 .config-note, .form-errors {
   color: #7a2433;
   background: rgba(122, 36, 51, 0.06);
