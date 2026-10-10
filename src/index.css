@@ -791,37 +791,45 @@ address { font-style: normal; }
   z-index: 0;
   will-change: transform, opacity;
 }
-.seal-glow-halo {
-  width: 175%;
-  aspect-ratio: 1;
-  background: radial-gradient(
-    circle,
-    rgba(255, 244, 210, 0.85) 0%,
-    rgba(255, 210, 120, 0.45) 38%,
-    rgba(255, 180, 70, 0.12) 58%,
-    transparent 72%
-  );
-  filter: blur(12px);
+.seal-face {
+  position: relative;
+  display: block;
+  width: 100%;
+  isolation: isolate;
 }
-.seal-glow-core {
-  width: 120%;
+.seal-glow-halo {
+  width: 106%;
   aspect-ratio: 1;
   background: radial-gradient(
     circle,
-    #fff8e8 0%,
-    #ffd98a 26%,
-    #f0a84a 48%,
-    rgba(240, 168, 74, 0) 70%
+    rgba(255, 230, 170, 0.55) 0%,
+    rgba(255, 200, 110, 0.28) 42%,
+    transparent 68%
   );
-  filter: blur(5px);
-  mix-blend-mode: screen;
+  filter: blur(6px);
+}
+.seal-wax-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 48% 40%,
+    rgba(255, 252, 235, 0.9) 0%,
+    rgba(255, 225, 160, 0.55) 32%,
+    rgba(255, 190, 100, 0.2) 52%,
+    transparent 64%
+  );
+  mix-blend-mode: soft-light;
 }
 .flap {
   position: absolute;
   inset: 0;
   background: #f4efe6 url("/images/envelope-paper.jpg") center / 100% 100% no-repeat;
   transform-style: preserve-3d;
-  backface-visibility: visible;
+  backface-visibility: hidden;
+  will-change: transform;
 }
 .flap-left {
   clip-path: polygon(0 0, 0 100%, 50% 50%);
@@ -879,9 +887,10 @@ address { font-style: normal; }
   background:
     linear-gradient(to bottom, transparent 44%, rgba(70, 50, 36, 0.22) 49.5%, transparent 56%),
     linear-gradient(165deg, rgba(255, 255, 255, 0.28) 0%, transparent 36%);
+  transition: background 0.65s ease, opacity 0.5s ease;
 }
 .flap-top.is-opening::after {
-  background: linear-gradient(to top, rgba(255, 214, 140, 0.92), rgba(255, 214, 140, 0) 38%);
+  background: linear-gradient(to top, rgba(255, 214, 140, 0.75), rgba(255, 214, 140, 0) 42%);
 }
 .envelope-seam-shadow {
   position: absolute;
@@ -899,6 +908,7 @@ address { font-style: normal; }
 .garden-envelope.is-opening .envelope-seam-shadow {
   opacity: 0;
   visibility: hidden;
+  transition: opacity 0.45s ease 0.12s, visibility 0s linear 0.55s;
 }
 .flap-sheen {
   position: absolute;
@@ -965,11 +975,11 @@ address { font-style: normal; }
   padding: 0;
   border: 0;
   background: none;
-  filter:
-    drop-shadow(0 0 12px rgba(255, 210, 130, 0.45))
-    drop-shadow(0 12px 14px rgba(60, 20, 24, 0.28));
+  filter: drop-shadow(0 12px 14px rgba(60, 20, 24, 0.28));
 }
 .wax-photo {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: auto;
   display: block;
@@ -990,6 +1000,7 @@ address { font-style: normal; }
   text-transform: uppercase;
   text-align: center;
   pointer-events: none;
+  transition: opacity 0.35s ease;
 }
 .seal-hint span {
   display: block;

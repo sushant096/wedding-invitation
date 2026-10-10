@@ -8,9 +8,30 @@ type EnvelopeProps = {
   musicControl: ReactNode;
 };
 
-const lidEase = [0.33, 0.02, 0.18, 1] as const;
+/** Smooth lift — avoids the harsh “snap” of an ease with a near-zero second control point. */
+const lidEase = [0.42, 0, 0.18, 1] as const;
 /** Closed lid tilt — top flap reads above the pocket (reference envelope). */
 const LID_REST = -6;
+const OPEN_DELAY_S = 0.18;
+const OPEN_FLAP_S = 2.25;
+const OPEN_END_MS = Math.round((OPEN_DELAY_S + OPEN_FLAP_S) * 1000 + 1100);
+const lidOpenTransition = {
+  duration: OPEN_FLAP_S,
+  delay: OPEN_DELAY_S,
+  ease: lidEase,
+} as const;
+
+const waxGlowIdle = [
+  "drop-shadow(0 0 5px rgba(255, 225, 170, 0.85)) drop-shadow(0 0 14px rgba(255, 195, 115, 0.55)) brightness(1.03) saturate(1.05)",
+  "drop-shadow(0 0 12px rgba(255, 238, 195, 1)) drop-shadow(0 0 24px rgba(255, 205, 120, 0.75)) brightness(1.1) saturate(1.12)",
+  "drop-shadow(0 0 5px rgba(255, 225, 170, 0.85)) drop-shadow(0 0 14px rgba(255, 195, 115, 0.55)) brightness(1.03) saturate(1.05)",
+] as const;
+
+const waxGlowOpen = [
+  "drop-shadow(0 0 8px rgba(255, 235, 195, 0.95)) drop-shadow(0 0 18px rgba(255, 210, 130, 0.7)) brightness(1.06) saturate(1.08)",
+  "drop-shadow(0 0 14px rgba(255, 248, 220, 1)) drop-shadow(0 0 28px rgba(255, 220, 150, 0.95)) drop-shadow(0 0 42px rgba(255, 185, 90, 0.65)) brightness(1.14) saturate(1.15)",
+  "drop-shadow(0 0 10px rgba(255, 230, 180, 0.9)) drop-shadow(0 0 22px rgba(255, 200, 120, 0.75)) brightness(1.08) saturate(1.1)",
+] as const;
 
 export function Envelope({ phase, onOpen, onOpened, musicControl }: EnvelopeProps) {
   const reduced = useReducedMotion();
@@ -18,7 +39,7 @@ export function Envelope({ phase, onOpen, onOpened, musicControl }: EnvelopeProp
 
   useEffect(() => {
     if (!opening) return;
-    const timer = window.setTimeout(onOpened, reduced ? 420 : 3400);
+    const timer = window.setTimeout(onOpened, reduced ? 420 : OPEN_END_MS);
     return () => window.clearTimeout(timer);
   }, [opening, onOpened, reduced]);
 
@@ -28,7 +49,7 @@ export function Envelope({ phase, onOpen, onOpened, musicControl }: EnvelopeProp
       animate={opening ? { opacity: reduced ? 0 : [1, 1, 0] } : { opacity: 1 }}
       transition={
         opening
-          ? { duration: reduced ? 0.4 : 3.25, times: [0, 0.78, 1], ease: "easeInOut" }
+          ? { duration: reduced ? 0.4 : OPEN_END_MS / 1000, times: [0, 0.82, 1], ease: [0.4, 0, 0.2, 1] }
           : { duration: 0.45 }
       }
     >
@@ -36,14 +57,10 @@ export function Envelope({ phase, onOpen, onOpened, musicControl }: EnvelopeProp
         <motion.div
           className="envelope-interior"
           aria-hidden="true"
-          animate={
-            opening && !reduced
-              ? { opacity: [0.85, 1, 1.15] }
-              : { opacity: 1 }
-          }
+          animate={opening && !reduced ? { opacity: [0.94, 1] } : { opacity: 1 }}
           transition={
             opening
-              ? { duration: 1.85, delay: 0.42, times: [0, 0.35, 1], ease: "easeOut" }
+              ? { ...lidOpenTransition, duration: OPEN_FLAP_S * 0.85 }
               : { duration: 0.3 }
           }
         />
@@ -64,54 +81,22 @@ export function Envelope({ phase, onOpen, onOpened, musicControl }: EnvelopeProp
           style={{ transformOrigin: "50% 0%" }}
           animate={
             opening && !reduced
-              ? { rotateX: [LID_REST, 12, 82], z: [18, 22, 48] }
-              : { rotateX: reduced ? 0 : LID_REST, z: reduced ? 0 : 18, opacity: reduced && opening ? 0 : 1 }
+              ? { rotateX: [LID_REST, 76] }
+              : { rotateX: reduced ? 0 : LID_REST, opacity: reduced && opening ? 0 : 1 }
           }
-          transition={{ duration: reduced ? 0.25 : 1.85, delay: reduced ? 0 : 0.42, times: [0, 0.22, 1], ease: lidEase }}
+          transition={reduced ? { duration: 0.25 } : opening ? lidOpenTransition : { duration: 0.35, ease: lidEase }}
         />
         <motion.div
           className="lid-seal"
           style={{ transformOrigin: "50% 0%" }}
           animate={
             opening && !reduced
-              ? { rotateX: [LID_REST, 12, 82], z: [28, 32, 58] }
-              : { rotateX: reduced ? 0 : LID_REST, z: reduced ? 0 : 28, opacity: reduced && opening ? 0 : 1 }
+              ? { rotateX: [LID_REST, 76] }
+              : { rotateX: reduced ? 0 : LID_REST, opacity: reduced && opening ? 0 : 1 }
           }
-          transition={{ duration: reduced ? 0.25 : 1.85, delay: reduced ? 0 : 0.42, times: [0, 0.22, 1], ease: lidEase }}
+          transition={reduced ? { duration: 0.25 } : opening ? lidOpenTransition : { duration: 0.35, ease: lidEase }}
         >
           <div className="seal-anchor">
-            {!reduced ? (
-              <>
-                <motion.div
-                  className="seal-glow seal-glow-halo"
-                  aria-hidden="true"
-                  animate={
-                    opening
-                      ? { opacity: [0.5, 1, 0.85], scale: [0.9, 1.45, 1.2] }
-                      : { opacity: [0.42, 0.78, 0.42], scale: [0.94, 1.12, 0.94] }
-                  }
-                  transition={
-                    opening
-                      ? { duration: 1.85, delay: 0.42, times: [0, 0.32, 1], ease: "easeOut" }
-                      : { duration: 2.6, repeat: Infinity, ease: "easeInOut" }
-                  }
-                />
-                <motion.div
-                  className="seal-glow seal-glow-core"
-                  aria-hidden="true"
-                  animate={
-                    opening
-                      ? { opacity: [0.35, 1, 0.95], scale: [0.75, 1.25, 1.05] }
-                      : { opacity: [0.55, 0.92, 0.55], scale: [0.88, 1.06, 0.88] }
-                  }
-                  transition={
-                    opening
-                      ? { duration: 1.85, delay: 0.42, times: [0, 0.28, 1], ease: "easeOut" }
-                      : { duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: 0.15 }
-                  }
-                />
-              </>
-            ) : null}
             <motion.button
               type="button"
               className="seal-button"
@@ -119,26 +104,64 @@ export function Envelope({ phase, onOpen, onOpened, musicControl }: EnvelopeProp
               disabled={opening}
               aria-label="Open the invitation"
               data-testid="open-seal"
-              animate={
-                opening
-                  ? {
-                      filter: [
-                        "drop-shadow(0 8px 10px rgba(60, 20, 24, 0.3))",
-                        "drop-shadow(0 0 28px rgba(255, 220, 150, 1)) drop-shadow(0 0 48px rgba(255, 190, 90, 0.75)) drop-shadow(0 18px 16px rgba(80, 30, 10, 0.35))",
-                        "drop-shadow(0 22px 18px rgba(40, 16, 8, 0.45))",
-                      ],
-                    }
-                  : reduced
-                    ? { scale: 1 }
-                    : { scale: [1, 1.025, 1] }
-              }
+              animate={reduced ? { scale: 1 } : opening ? { scale: 1 } : { scale: [1, 1.025, 1] }}
               transition={
                 opening
-                  ? { duration: 1.85, delay: 0.42, times: [0, 0.28, 1], ease: "easeOut" }
+                  ? { duration: 0.3 }
                   : { duration: 3.2, repeat: Infinity, ease: "easeInOut" }
               }
             >
-              <img className="wax-photo" src="/images/wax-seal-tight.png" alt="" />
+              <span className="seal-face">
+                {!reduced ? (
+                  <motion.span
+                    className="seal-glow seal-glow-halo"
+                    aria-hidden="true"
+                    animate={
+                      opening
+                        ? { opacity: [0.35, 0.7, 0.5], scale: [0.98, 1.08, 1.02] }
+                        : { opacity: [0.28, 0.52, 0.28], scale: [0.99, 1.04, 0.99] }
+                    }
+                    transition={
+                      opening
+                        ? { ...lidOpenTransition, duration: OPEN_FLAP_S * 0.9 }
+                        : { duration: 2.6, repeat: Infinity, ease: "easeInOut" }
+                    }
+                  />
+                ) : null}
+                <motion.img
+                  className="wax-photo"
+                  src="/images/wax-seal-tight.png"
+                  alt=""
+                  animate={{
+                    filter: reduced
+                      ? waxGlowIdle[0]
+                      : opening
+                        ? [...waxGlowOpen]
+                        : [...waxGlowIdle],
+                  }}
+                  transition={
+                    opening
+                      ? { ...lidOpenTransition, duration: OPEN_FLAP_S * 0.75 }
+                      : { duration: 2.4, repeat: Infinity, ease: "easeInOut" }
+                  }
+                />
+                {!reduced ? (
+                  <motion.span
+                    className="seal-wax-glow"
+                    aria-hidden="true"
+                    animate={
+                      opening
+                        ? { opacity: [0.25, 0.85, 0.55] }
+                        : { opacity: [0.2, 0.55, 0.2] }
+                    }
+                    transition={
+                      opening
+                        ? { ...lidOpenTransition, duration: OPEN_FLAP_S * 0.85 }
+                        : { duration: 2.2, repeat: Infinity, ease: "easeInOut" }
+                    }
+                  />
+                ) : null}
+              </span>
             </motion.button>
           </div>
         </motion.div>
