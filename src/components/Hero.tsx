@@ -74,35 +74,37 @@ export function Hero({ onScrollDown, videoActive, playNonce }: HeroProps) {
       />
 
       <motion.div className="garden-hero-text" variants={container} initial="hidden" animate="show">
-        <motion.div className="hero-copy-center" variants={rise}>
-          <motion.h1
-            id="couple-names"
-            className="hero-couple-stack"
-            tabIndex={-1}
-            variants={rise}
-            aria-label={wedding.heroHeadline}
-          >
-            <span className="hero-name">{wedding.partnerTwo}</span>
-            <span className="hero-weds-mid">Weds</span>
-            <span className="hero-name">{wedding.partnerOne}</span>
-          </motion.h1>
-          <motion.p className="hero-hashtag" variants={rise}>
-            {wedding.heroHashtag}
-          </motion.p>
-        </motion.div>
-        <motion.div className="hero-scroll-wrap" variants={rise}>
-          <button type="button" className="scroll-cue-garden" onClick={onScrollDown}>
-            <span className="gold-script scroll-label">Scroll down</span>
-            <motion.span
-              className="scroll-chevron-gold"
-              aria-hidden="true"
-              animate={reduced ? undefined : { y: [0, 4, 0] }}
-              transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+        <div className="hero-content-cluster">
+          <div className="hero-copy-center">
+            <motion.h1
+              id="couple-names"
+              className="hero-couple-stack"
+              tabIndex={-1}
+              variants={rise}
+              aria-label={wedding.heroHeadline}
             >
-              ⌄
-            </motion.span>
-          </button>
-        </motion.div>
+              <span className="hero-name">{wedding.partnerTwo}</span>
+              <span className="hero-weds-mid">Weds</span>
+              <span className="hero-name">{wedding.partnerOne}</span>
+            </motion.h1>
+            <motion.p className="hero-hashtag" variants={rise}>
+              {wedding.heroHashtag}
+            </motion.p>
+          </div>
+          <motion.div className="hero-scroll-wrap" variants={rise}>
+            <button type="button" className="scroll-cue-garden" onClick={onScrollDown}>
+              <span className="gold-script scroll-label">Scroll down</span>
+              <motion.span
+                className="scroll-chevron-gold"
+                aria-hidden="true"
+                animate={reduced ? undefined : { y: [0, 4, 0] }}
+                transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+              >
+                ⌄
+              </motion.span>
+            </button>
+          </motion.div>
+        </div>
       </motion.div>
 
       <TornPaperEdge className="garden-tear" />

@@ -75,7 +75,7 @@ export function EventTimeline() {
                 ref={(node) => {
                   itemRefs.current[index] = node;
                 }}
-                className={index === active ? "is-active" : undefined}
+                className={index === active ? "timeline-item is-active" : "timeline-item"}
               >
                 <button
                   type="button"

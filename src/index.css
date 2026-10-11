@@ -89,7 +89,9 @@ address { font-style: normal; }
 }
 
 .garden-hero {
+  --hero-swan-band: clamp(24vh, 28vh, 32vh);
   position: relative;
+  height: 100dvh;
   min-height: 100dvh;
   overflow: hidden;
   background: #ebe5dc;
@@ -107,14 +109,25 @@ address { font-style: normal; }
   position: absolute;
   z-index: 2;
   inset: 0;
+  height: 100%;
+  min-height: 100dvh;
+  text-align: center;
+  pointer-events: none;
+}
+.hero-content-cluster {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--hero-swan-band) + env(safe-area-inset-bottom, 0px) + clamp(0.25rem, 1.2vh, 0.65rem));
+  transform: translateX(-50%);
+  width: min(92%, 26rem);
+  max-height: calc(100dvh - var(--hero-swan-band) - env(safe-area-inset-top, 0px) - 1rem);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: clamp(0.5rem, 2vh, 1rem) 6% clamp(30vh, 34vh, 38vh);
-  gap: clamp(1rem, 3.5vh, 1.85rem);
-  pointer-events: none;
+  justify-content: flex-end;
+  gap: clamp(0.75rem, 2.5vh, 1.5rem);
+  box-sizing: border-box;
+  padding-inline: 0.25rem;
 }
 .hero-copy-center {
   display: flex;
@@ -122,8 +135,6 @@ address { font-style: normal; }
   align-items: center;
   justify-content: center;
   width: 100%;
-  flex: 0 1 auto;
-  max-height: min(52vh, 22rem);
 }
 .garden-hero-text .scroll-cue-garden { pointer-events: auto; }
 .hero-head {
@@ -188,7 +199,7 @@ address { font-style: normal; }
   margin: 0.15rem auto 0;
   padding: 0 0.5rem;
   font-family: var(--serif);
-  font-size: clamp(0.95rem, 3.4vw, 1.08rem);
+  font-size: clamp(1.08rem, 4.2vw, 1.28rem);
   font-weight: 600;
   letter-spacing: 0.06em;
   color: #8f5a18;
@@ -218,7 +229,7 @@ address { font-style: normal; }
   display: block;
   font-family: var(--names);
   font-weight: 400;
-  font-size: clamp(2.85rem, 12.5vw, 4.15rem);
+  font-size: clamp(3.35rem, 14.5vw, 4.85rem);
   line-height: 1.05;
   letter-spacing: 0.02em;
   color: #a8721c;
@@ -234,7 +245,7 @@ address { font-style: normal; }
 .hero-amp {
   display: block;
   font-family: var(--names);
-  font-size: clamp(1.45rem, 5.5vw, 2rem);
+  font-size: clamp(1.75rem, 6.5vw, 2.45rem);
   line-height: 1;
   margin: clamp(0.2rem, 0.9vh, 0.5rem) 0;
   color: #c9a04a;
@@ -243,6 +254,9 @@ address { font-style: normal; }
     0 0 14px rgba(255, 252, 245, 0.9),
     0 1px 0 rgba(255, 255, 255, 0.75),
     0 2px 8px rgba(48, 32, 18, 0.3);
+}
+.garden-hero-text .scroll-label {
+  font-size: clamp(1.45rem, 5vw, 1.65rem);
 }
 .hero-scroll-wrap {
   position: relative;
@@ -254,15 +268,23 @@ address { font-style: normal; }
   margin: 0;
 }
 @media (max-height: 740px) {
-  .garden-hero-text {
-    gap: 0.85rem;
-    padding-bottom: clamp(28vh, 32vh, 36vh);
+  .garden-hero {
+    --hero-swan-band: clamp(22vh, 26vh, 30vh);
   }
-  .hero-copy-center {
-    max-height: min(44vh, 19rem);
+  .hero-content-cluster {
+    gap: 0.75rem;
   }
   .hero-name {
-    font-size: clamp(2.35rem, 11vw, 3.15rem);
+    font-size: clamp(2.85rem, 13vw, 3.65rem);
+  }
+}
+@media (max-height: 640px) {
+  .hero-name {
+    font-size: clamp(2.65rem, 12vw, 3.35rem);
+  }
+  .hero-weds-mid {
+    font-size: clamp(1.5rem, 5.8vw, 1.95rem);
+    margin: 0.15rem 0;
   }
 }
 .scroll-cue-garden {
@@ -602,17 +624,24 @@ address { font-style: normal; }
 }
 .timeline { position: relative; margin-top: 0.6rem; }
 .timeline-list { list-style: none; margin: 0; padding: 0; }
+.timeline-item {
+  display: grid;
+  grid-template-columns: 5.25rem minmax(0, 1fr);
+  column-gap: 2.6rem;
+  padding-inline: 0.2rem;
+}
 .event-button {
+  grid-column: 1 / -1;
   width: 100%;
   display: grid;
-  grid-template-columns: 5.25rem 1fr;
+  grid-template-columns: 5.25rem minmax(0, 1fr);
   column-gap: 2.6rem;
   align-items: center;
   background: none;
   border: 0;
   color: inherit;
   text-align: left;
-  padding: 0.85rem 0.2rem;
+  padding: 0.85rem 0;
 }
 .event-time {
   display: flex;
@@ -646,13 +675,13 @@ address { font-style: normal; }
   text-transform: none;
 }
 .event-name { font-size: 1.28rem; color: #3e3330; line-height: 1.2; }
-.timeline-list .is-active .event-name { color: var(--rose); }
-.timeline-list .is-active .event-date { color: #8a6a62; }
+.timeline-item.is-active .event-name { color: var(--rose); }
+.timeline-item.is-active .event-date { color: #8a6a62; }
 .timeline-rail {
   position: absolute;
   top: 12px;
   bottom: 12px;
-  left: 6.35rem;
+  left: calc(5.25rem + 1.3rem);
   width: 1px;
   background: linear-gradient(#e4d5cb, #c9b4a8);
 }
@@ -665,12 +694,90 @@ address { font-style: normal; }
   pointer-events: none;
 }
 .event-detail {
-  margin: 0 0 0.4rem 5.5rem;
+  grid-column: 2;
+  margin: -0.2rem 0 0.75rem;
+  padding-right: 0.1rem;
   color: var(--muted);
-  font-size: 1.05rem;
+  font-size: 0.98rem;
+  line-height: 1.45;
   text-align: left;
 }
-.event-detail p { margin: 0.15rem 0; }
+.event-detail p { margin: 0.2rem 0; }
+
+.venue-when {
+  text-align: center;
+  margin: 0.35rem 0 0.5rem;
+  color: #5c4a46;
+}
+.venue-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  width: min(100%, 22.5rem);
+  margin: 0 auto;
+  text-align: left;
+}
+.venue-card {
+  padding: 1.15rem 1.1rem 1.2rem;
+  border-radius: 16px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 252, 246, 0.98) 0%,
+    rgba(248, 240, 228, 0.95) 100%
+  );
+  border: 1px solid rgba(186, 148, 108, 0.22);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 10px 24px rgba(55, 38, 22, 0.08);
+}
+.venue-card-name {
+  margin: 0;
+  text-align: center;
+  font-size: 1.35rem;
+  letter-spacing: 0.03em;
+  color: #3e3330;
+}
+.venue-card-address {
+  display: grid;
+  gap: 0.1rem;
+  margin: 0.45rem 0 0.85rem;
+  text-align: center;
+  color: #5c4a46;
+  font-style: normal;
+}
+.venue-event-list {
+  margin: 0;
+  padding: 0 0 0 1.05rem;
+  color: #4a403c;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+.venue-event-list li {
+  margin: 0.12rem 0;
+}
+.venue-event-note {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: #7a6e68;
+  font-weight: 400;
+}
+.venue-card-maps-btn {
+  display: block;
+  width: 100%;
+  margin-top: 0.95rem;
+  padding: 0.55rem 0.85rem;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  color: #3d6d8a;
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  box-shadow: 0 6px 16px rgba(40, 50, 40, 0.12);
+  cursor: pointer;
+}
 
 .venue-name {
   text-align: center;
@@ -775,7 +882,8 @@ address { font-style: normal; }
 .rsvp-seal { width: 132px; }
 .rsvp-chevron { margin-top: -0.2rem; color: #b7a295; font-size: 1.1rem; }
 .script-hint { font-family: var(--script); font-size: 1.7rem; }
-.hope {
+.hope,
+#closing-heading.hope {
   margin: 1.4rem 0 0;
   font-family: var(--script);
   font-size: clamp(2.2rem, 8vw, 2.8rem);
@@ -784,7 +892,8 @@ address { font-style: normal; }
     0 0 16px rgba(255, 252, 245, 0.9),
     0 1px 0 rgba(255, 255, 255, 0.8);
 }
-.hope-names {
+.hope-names,
+.closing-rsvp-card {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -803,6 +912,66 @@ address { font-style: normal; }
     0 10px 28px rgba(55, 38, 22, 0.14);
   position: relative;
   z-index: 5;
+}
+.closing-rsvp-card {
+  align-items: stretch;
+  gap: 0.85rem;
+  padding: 1.15rem 1.2rem 1.2rem;
+  width: min(100%, 21rem);
+}
+.rsvp-contact-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+.rsvp-contact-list li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  text-align: center;
+}
+.rsvp-contact-name {
+  font-family: var(--serif);
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: #4a403c;
+}
+.rsvp-contact-phone {
+  font-family: var(--serif);
+  font-size: 0.98rem;
+  color: #3d6d8a;
+  text-decoration: none;
+}
+.rsvp-contact-phone:hover {
+  text-decoration: underline;
+}
+.rsvp-compliments {
+  margin: 0.15rem 0 0;
+  padding-top: 0.65rem;
+  border-top: 1px solid rgba(186, 148, 108, 0.22);
+  font-family: var(--script);
+  font-size: clamp(1.15rem, 4.2vw, 1.4rem);
+  line-height: 1.35;
+  color: #6b4a32;
+  text-align: center;
+}
+.rsvp-family-flower {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: #5c4a46;
+  text-align: center;
+}
+.rsvp-family-flower-label {
+  font-weight: 600;
+}
+.rsvp-family-flower-name {
+  font-weight: 600;
+  color: #8f5a18;
 }
 .closing-name {
   font-family: var(--names);

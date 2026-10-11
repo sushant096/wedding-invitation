@@ -40,13 +40,17 @@ export function FamilyInvitation() {
         <div className="family-couple-block" aria-label={`${partnerTwo} weds ${partnerOne}`}>
           <p className="family-partner-name">{families.groom.displayName}</p>
           <p className="family-lineage">{families.groom.parentsLine}</p>
-          <p className="family-lineage">{families.groom.grandparentsLine}</p>
+          {families.groom.grandparentsLine?.trim() ? (
+            <p className="family-lineage">{families.groom.grandparentsLine}</p>
+          ) : null}
 
           <p className="family-weds-divider" aria-hidden="true">— Weds —</p>
 
           <p className="family-partner-name">{families.bride.displayName}</p>
           <p className="family-lineage">{families.bride.parentsLine}</p>
-          <p className="family-lineage">{families.bride.grandparentsLine}</p>
+          {families.bride.grandparentsLine?.trim() ? (
+            <p className="family-lineage">{families.bride.grandparentsLine}</p>
+          ) : null}
         </div>
       </motion.div>
     </section>

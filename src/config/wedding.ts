@@ -19,6 +19,22 @@ export type WeddingEvent = {
   venue: string;
 };
 
+export type WeddingVenueEvent = {
+  name: string;
+  note?: string;
+};
+
+export type WeddingVenuePlace = {
+  id: string;
+  name: string;
+  addressLines: string[];
+  mapsUrl: string;
+  events: WeddingVenueEvent[];
+};
+
+const venueGoldenTulipFull = "Hotel Golden Tulip, Hari Nagar, New Delhi";
+const venueStarlandFull = "Starland Banquet Hall, Mayapuri, New Delhi";
+
 export const wedding = {
   partnerOne: "Akansha",
   partnerTwo: "Sushant",
@@ -28,7 +44,7 @@ export const wedding = {
   /**
    * Main wedding moment (barat arrival). Calendar download and venue time use this.
    */
-  ceremonyAt: "2026-11-26T20:00:00+05:30",
+  ceremonyAt: "2026-11-26T21:00:00+05:30",
   /** Countdown targets the first celebration (Mehndi). */
   celebrationStartsAt: "2026-11-25T15:00:00+05:30",
   timeZone: "Asia/Kolkata",
@@ -48,13 +64,13 @@ export const wedding = {
   families: {
     bride: {
       displayName: "Akansha",
-      parentsLine: "D/o Late Smt. Purnima Semwal",
+      parentsLine: "D/o Sh. Lalit Semwal & Late Smt. Purnima Semwal",
       grandparentsLine: "Grand D/o Late Smt. Laxmi Devi & Late Shri. B.R. Semwal",
     },
     groom: {
       displayName: "Sushant",
       parentsLine: "S/o Smt. Sudha Sood & Shri. Devinder Sood",
-      grandparentsLine: "Grand S/o Smt. Jogindra Sood & Late Shri. Raghu Nath Sood",
+      grandparentsLine: "",
     },
   },
 
@@ -69,67 +85,106 @@ export const wedding = {
   events: [
     {
       id: "mehndi",
-      name: "Mehndi",
-      date: "25 November 2026",
+      name: "Mehandi",
+      date: "Wednesday, 25 November 2026",
       time: "3 PM onwards",
       description: "An afternoon of henna, colour, music, and celebration.",
-      venue: "Venue details on your invitation",
+      venue: venueGoldenTulipFull,
     },
     {
       id: "ring",
       name: "Ring Ceremony",
-      date: "25 November 2026",
-      time: "7 PM onwards",
+      date: "Wednesday, 25 November 2026",
+      time: "7:30 PM onwards",
       description: "Join us as we exchange rings with our families and friends.",
-      venue: "Starland Banquet Hall, Mayapuri, New Delhi",
+      venue: venueStarlandFull,
     },
     {
       id: "haldi",
       name: "Haldi",
-      date: "26 November 2026",
-      time: "11 AM onwards",
+      date: "Thursday, 26 November 2026",
+      time: "10:00 AM onwards",
       description: "A joyful morning of haldi blessings and laughter.",
-      venue: "Venue details on your invitation",
+      venue: venueGoldenTulipFull,
     },
     {
-      id: "lunch",
-      name: "Lunch",
-      date: "26 November 2026",
-      time: "2 PM onwards",
-      description: "A relaxed lunch with loved ones before the evening festivities.",
-      venue: "Venue details on your invitation",
+      id: "saand",
+      name: "Saand",
+      date: "Thursday, 26 November 2026",
+      time: "12:00 noon onwards",
+      description: "Join us for the Saand ceremony.",
+      venue: venueGoldenTulipFull,
+    },
+    {
+      id: "sehrabandi",
+      name: "Sehrabandi",
+      date: "Thursday, 26 November 2026",
+      time: "6:30 PM onwards",
+      description: "Sehrabandi blessings before the baraat.",
+      venue: venueGoldenTulipFull,
     },
     {
       id: "barat-departure",
-      name: "Departure of Barat",
-      date: "26 November 2026",
-      time: "7 PM onwards",
-      description: "The barat sets out for the wedding venue.",
-      venue: "As shared with invited guests",
+      name: "Departure of Baraat",
+      date: "Thursday, 26 November 2026",
+      time: "7:30 PM",
+      description: "The baraat departs from Hotel Golden Tulip for Starland Banquet Hall.",
+      venue: venueGoldenTulipFull,
     },
     {
-      id: "barat-arrival",
-      name: "Arrival of Barat",
-      date: "26 November 2026",
-      time: "8 PM",
-      description: "Welcome the barat and begin the wedding celebrations.",
-      venue: "Starland Banquet Hall, Mayapuri, New Delhi",
+      id: "wedding-ceremony",
+      name: "Wedding Ceremony",
+      date: "Thursday, 26 November 2026",
+      time: "9:00 PM",
+      description: "Wedding ceremony and celebrations with family and friends.",
+      venue: venueStarlandFull,
     },
   ] satisfies WeddingEvent[],
 
-  venue: {
-    title: "Location",
-    name: "Starland Banquet Hall",
+  venues: {
+    title: "Venues",
     dateLine: "25–26 November 2026",
-    /**
-     * Opens in Google Maps. Update if you prefer a pinned link.
-     */
-    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Starland+Banquet+Hall+Mayapuri+New+Delhi",
-    imageSrc: "",
-    addressLines: ["Mayapuri", "New Delhi", "India"],
+    places: [
+      {
+        id: "golden-tulip",
+        name: "Hotel Golden Tulip",
+        addressLines: ["Hari Nagar", "New Delhi", "India"],
+        mapsUrl:
+          "https://www.google.com/maps/search/?api=1&query=Hotel+Golden+Tulip+Hari+Nagar+New+Delhi",
+        events: [
+          { name: "Mehandi" },
+          { name: "Haldi" },
+          { name: "Saand" },
+          { name: "Sehrabandi" },
+          {
+            name: "Departure of Baraat",
+            note: "Baraat departs Golden Tulip at 7:30 PM for Starland.",
+          },
+        ],
+      },
+      {
+        id: "starland",
+        name: "Starland Banquet Hall",
+        addressLines: ["Mayapuri", "New Delhi", "India"],
+        mapsUrl:
+          "https://www.google.com/maps/search/?api=1&query=Starland+Banquet+Hall+Mayapuri+New+Delhi",
+        events: [{ name: "Ring Ceremony" }, { name: "Wedding Ceremony" }],
+      },
+    ] satisfies WeddingVenuePlace[],
   },
 
-  closingMessage: "Hope to see you there!",
+  rsvp: {
+    title: "R.S.V.P",
+    contacts: [
+      { name: "Deepansh Sood", phone: "9711842800" },
+      { name: "Shailendar Sood", phone: "9810271275" },
+      { name: "BK Sood", phone: "9418155850" },
+      { name: "Anil Sood", phone: "8527622635" },
+    ],
+    complimentsLine: "Best Compliments From All relatives & Friends",
+    familyFlowerLabel: "Family flower",
+    familyFlowerName: "Avyaan Sood",
+  },
 
   /** Drop an MP3 at public/audio/invitation.mp3 or change this path. */
   musicSrc: "/audio/invitation.mp3",
