@@ -687,7 +687,7 @@ address { font-style: normal; }
 }
 .timeline-rose {
   position: absolute;
-  left: 5.15rem;
+  left: calc(5.25rem + 1.3rem - 1.2rem);
   top: 0;
   width: 2.4rem;
   z-index: 1;
