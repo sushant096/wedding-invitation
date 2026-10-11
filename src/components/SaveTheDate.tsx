@@ -21,6 +21,33 @@ function buildNovember2026Cells(): Array<number | null> {
 
 const calendarCells = buildNovember2026Cells();
 
+function toGCalDate(iso: string) {
+  // Google Calendar wants: YYYYMMDDTHHMMSSZ
+  const d = new Date(iso);
+  return d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+}
+
+function openGoogleCalendar() {
+  const start = toGCalDate(wedding.ceremonyAt);
+  const endDate = new Date(wedding.ceremonyAt);
+  endDate.setHours(endDate.getHours() + 3);
+  const end = toGCalDate(endDate.toISOString());
+
+  const venue = wedding.venues.places.find(p => p.id === "starland");
+  const location = venue ? [venue.name, ...venue.addressLines].join(", ") : "";
+  const details = `Join us for the wedding of ${wedding.partnerOne} & ${wedding.partnerTwo}. ${wedding.heroHashtag}`;
+
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: `${wedding.partnerOne} & ${wedding.partnerTwo}'s Wedding`,
+    dates: `${start}/${end}`,
+    details,
+    location,
+  });
+
+  window.open(`https://calendar.google.com/calendar/render?${params.toString()}`, "_blank", "noopener,noreferrer");
+}
+
 export function SaveTheDate() {
   const reduced = useReducedMotion();
   const highlights = new Set(wedding.saveTheDate.highlightDays);
@@ -74,7 +101,29 @@ export function SaveTheDate() {
             })}
           </div>
         </div>
+
+        <button
+          type="button"
+          className="add-to-calendar-btn"
+          onClick={openGoogleCalendar}
+          aria-label="Add wedding reminder to your calendar"
+        >
+          <CalendarIcon />
+          Add Reminder to Calendar
+        </button>
       </motion.div>
     </section>
+  );
+}
+
+function CalendarIcon() {
+  return (
+    <svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <rect x="2" y="3.5" width="16" height="14" rx="2" />
+      <path d="M2 7.5h16" />
+      <path d="M6 2v3M14 2v3" strokeLinecap="round" />
+      <path d="M6 11h2v2H6z" fill="currentColor" stroke="none" />
+      <path d="M9 11h2v2H9z" fill="currentColor" stroke="none" />
+    </svg>
   );
 }

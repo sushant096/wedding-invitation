@@ -79,14 +79,7 @@ export function App() {
           }
         />
       ) : null}
-      <ControlDock
-        visible={phase === "open"}
-        playing={music.playing}
-        available={music.available}
-        onToggleMusic={() => {
-          void music.toggle();
-        }}
-      />
+      <ControlDock visible={phase === "open"} />
       {phase === "open" ? (
         <div className="music-dock">
           <MusicButton

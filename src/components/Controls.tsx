@@ -30,13 +30,10 @@ export function MusicButton({ playing, available, onToggle }: MusicButtonProps) 
 }
 
 type DockProps = {
-  playing: boolean;
-  available: boolean;
-  onToggleMusic: () => void;
   visible: boolean;
 };
 
-export function ControlDock({ playing, available, onToggleMusic, visible }: DockProps) {
+export function ControlDock({ visible }: DockProps) {
   const [notice, setNotice] = useState("");
 
   async function share() {

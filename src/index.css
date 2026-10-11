@@ -513,6 +513,33 @@ address { font-style: normal; }
 }
 .std-days { margin-top: 0.45rem; }
 
+.add-to-calendar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  margin: 1.4rem auto 0;
+  padding: 0.6rem 1.3rem;
+  border: 1.5px solid rgba(107, 74, 50, 0.35);
+  border-radius: 999px;
+  background: transparent;
+  color: #6b4a32;
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+.add-to-calendar-btn:hover {
+  background: rgba(107, 74, 50, 0.08);
+}
+.add-to-calendar-btn svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
 .sheet {
   position: relative;
   padding: 2.2rem 1.35rem 2.6rem;
