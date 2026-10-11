@@ -87,6 +87,17 @@ export function App() {
           void music.toggle();
         }}
       />
+      {phase === "open" ? (
+        <div className="music-dock">
+          <MusicButton
+            playing={music.playing}
+            available={music.available}
+            onToggle={() => {
+              void music.toggle();
+            }}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }

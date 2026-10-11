@@ -80,7 +80,6 @@ export function ControlDock({ playing, available, onToggleMusic, visible }: Dock
       >
         <ChatIcon />
       </button>
-      <MusicButton playing={playing} available={available} onToggle={onToggleMusic} />
       <p className="visually-hidden" aria-live="polite" data-testid="share-notice">
         {notice}
       </p>

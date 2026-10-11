@@ -1094,6 +1094,12 @@ address { font-style: normal; }
   align-items: center;
   gap: 8px;
 }
+.music-dock {
+  position: fixed;
+  z-index: 30;
+  right: max(14px, calc((100vw - min(100vw, 480px)) / 2 + 14px));
+  top: 16px;
+}
 .round-btn {
   width: 54px;
   height: 54px;
