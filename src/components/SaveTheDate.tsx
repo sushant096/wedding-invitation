@@ -109,7 +109,7 @@ export function SaveTheDate() {
           aria-label="Add wedding reminder to your calendar"
         >
           <CalendarIcon />
-          Add Reminder to Calendar
+          Add to Calendar
         </button>
       </motion.div>
     </section>
