@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { wedding } from "../config/wedding";
-import { formatHeroDate } from "../lib/weddingUtils";
 import { TornPaperEdge } from "./GardenScene";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
@@ -17,8 +16,6 @@ type HeroProps = {
 export function Hero({ onScrollDown, videoActive, playNonce }: HeroProps) {
   const reduced = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const heroDate =
-    wedding.heroDateDisplay ?? formatHeroDate(wedding.ceremonyAt, wedding.timeZone);
 
   const startVideo = useCallback(() => {
     const video = videoRef.current;
@@ -77,21 +74,22 @@ export function Hero({ onScrollDown, videoActive, playNonce }: HeroProps) {
       />
 
       <motion.div className="garden-hero-text" variants={container} initial="hidden" animate="show">
-        <motion.div className="hero-head" variants={rise}>
-          <p className="hero-eyebrow">{wedding.heroEyebrow}</p>
-          {heroDate ? <p className="hero-date-gold">{heroDate}</p> : null}
+        <motion.div className="hero-copy-center" variants={rise}>
+          <motion.h1
+            id="couple-names"
+            className="hero-couple-stack"
+            tabIndex={-1}
+            variants={rise}
+            aria-label={wedding.heroHeadline}
+          >
+            <span className="hero-name">{wedding.partnerTwo}</span>
+            <span className="hero-weds-mid">Weds</span>
+            <span className="hero-name">{wedding.partnerOne}</span>
+          </motion.h1>
+          <motion.p className="hero-hashtag" variants={rise}>
+            {wedding.heroHashtag}
+          </motion.p>
         </motion.div>
-        <motion.h1
-          id="couple-names"
-          className="hero-couple-stack"
-          tabIndex={-1}
-          variants={rise}
-          aria-label={`${wedding.partnerOne} and ${wedding.partnerTwo}`}
-        >
-          <span className="hero-name">{wedding.partnerOne}</span>
-          <span className="hero-amp" aria-hidden="true">&</span>
-          <span className="hero-name">{wedding.partnerTwo}</span>
-        </motion.h1>
         <motion.div className="hero-scroll-wrap" variants={rise}>
           <button type="button" className="scroll-cue-garden" onClick={onScrollDown}>
             <span className="gold-script scroll-label">Scroll down</span>

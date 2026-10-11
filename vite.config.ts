@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     watch: {
       // Large reference videos in the repo root can lock on Windows and crash the watcher.
-      ignored: ["**/*.mov", "**/*.mp4"],
+      ignored: ["**/*.mov", "**/*.mp4", "**/Screenshot_*.jpg"],
     },
   },
 });

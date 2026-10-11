@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { wedding } from "../config/wedding";
-import { formatLongWhen, getRemaining, pad2, parseInstant, type Remaining } from "../lib/weddingUtils";
+import { getRemaining, pad2, parseInstant, type Remaining } from "../lib/weddingUtils";
 
 const empty: Remaining = { days: 0, hours: 0, minutes: 0, seconds: 0, elapsed: false };
 
@@ -18,8 +18,6 @@ export function Countdown() {
     const id = window.setInterval(tick, 1000);
     return () => window.clearInterval(id);
   }, [target]);
-
-  const when = formatLongWhen(countdownIso, wedding.timeZone);
 
   return (
     <section className="sheet countdown-sheet" id="countdown" aria-labelledby="countdown-title">
@@ -52,7 +50,6 @@ export function Countdown() {
             </span>
             <Count value={pad2(remaining.seconds)} label="Seconds" />
           </div>
-          {when ? <p className="when-line">Until {when}</p> : null}
         </>
       )}
     </section>

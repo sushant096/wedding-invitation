@@ -32,20 +32,40 @@ export const wedding = {
   /** Countdown targets the first celebration (Mehndi). */
   celebrationStartsAt: "2026-11-25T15:00:00+05:30",
   timeZone: "Asia/Kolkata",
-  heroEyebrow: "Wedding Celebrations",
-  /** Shown under the hero eyebrow when set; otherwise derived from ceremonyAt. */
-  heroDateDisplay: "25-26 Nov 2026",
+  /** First-page hero line (swans slide). */
+  heroHeadline: "Sushant Weds Akansha",
+  heroHashtag: "#SushiKiKanshi",
   /** Looping arch + swans scene (from your Swans2 reference). */
   heroVideoSrc: "/video/swans-hero.mp4",
   heroVideoPoster: "/video/swans-hero-poster.jpg",
-  /** Three-line verse on the parchment panel (Sacred Garden style). */
-  heroVerse: ["Two Souls", "One destiny", "A lifetime written in love"],
-  letterSalutation: "Dear Friends and Family",
-  invitationBody:
-    "Join us for an evening of love, laughter, blessings, and unforgettable memories as we begin our forever.",
+  host: {
+    nameLine: "Smt. Jogindra Devi Sood W/o Late. Sh. Raghu Nath Sood",
+    inviteLines: [
+      "Cordially invite you to the auspicious occasion",
+      "of the wedding celebrations of her grandson",
+    ],
+  },
+  families: {
+    bride: {
+      displayName: "Akansha",
+      parentsLine: "D/o Late Smt. Purnima Semwal",
+      grandparentsLine: "Grand D/o Late Smt. Laxmi Devi & Late Shri. B.R. Semwal",
+    },
+    groom: {
+      displayName: "Sushant",
+      parentsLine: "S/o Smt. Sudha Sood & Shri. Devinder Sood",
+      grandparentsLine: "Grand S/o Smt. Jogindra Sood & Late Shri. Raghu Nath Sood",
+    },
+  },
+
+  saveTheDate: {
+    title: "Save The Dates",
+    monthLabel: "NOVEMBER 2026",
+    highlightDays: [25, 26] as number[],
+  },
 
   countdownTitle: "The Celebration Begins In",
-  eventsTitle: "Schedule of Events",
+  eventsTitle: "Events",
   events: [
     {
       id: "mehndi",

@@ -1,7 +1,8 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Flourish } from "./art";
 import { Hero } from "./Hero";
-import { LetterIntro } from "./LetterIntro";
+import { FamilyInvitation } from "./FamilyInvitation";
+import { SaveTheDate } from "./SaveTheDate";
 import { Countdown } from "./Countdown";
 import { EventTimeline } from "./EventTimeline";
 import { Closing } from "./Closing";
@@ -17,8 +18,8 @@ type InvitationProps = {
 
 export function Invitation({ onReplay, heroVideoActive, heroPlayNonce, revealed }: InvitationProps) {
   const reduced = useReducedMotion();
-  function scrollToLetter() {
-    document.getElementById("letter")?.scrollIntoView({
+  function scrollToFamilyInvitation() {
+    document.getElementById("family-invitation")?.scrollIntoView({
       behavior: reduced ? "auto" : "smooth",
     });
   }
@@ -31,9 +32,11 @@ export function Invitation({ onReplay, heroVideoActive, heroPlayNonce, revealed 
       transition={{ duration: reduced ? 0.15 : revealed ? 0.85 : 0, ease: [0.22, 1, 0.36, 1] }}
       aria-hidden={!revealed}
     >
-      <Hero onScrollDown={scrollToLetter} videoActive={heroVideoActive} playNonce={heroPlayNonce} />
+      <Hero onScrollDown={scrollToFamilyInvitation} videoActive={heroVideoActive} playNonce={heroPlayNonce} />
 
-      <LetterIntro />
+      <FamilyInvitation />
+
+      <SaveTheDate />
 
       <Countdown />
       <EventTimeline />

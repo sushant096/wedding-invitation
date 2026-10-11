@@ -3,6 +3,14 @@ import { motion, useReducedMotion } from "motion/react";
 import { wedding } from "../config/wedding";
 import { Flourish, RoseMark } from "./art";
 
+function splitEventTime(time: string): { when: string; onwards?: string } {
+  const match = /^(.+?)\s+onwards$/i.exec(time.trim());
+  if (match) {
+    return { when: match[1], onwards: "onwards" };
+  }
+  return { when: time.trim() };
+}
+
 export function EventTimeline() {
   const reduced = useReducedMotion();
   const [active, setActive] = useState(0);
@@ -60,6 +68,7 @@ export function EventTimeline() {
         <ul className="timeline-list">
           {wedding.events.map((event, index) => {
             const open = openId === event.id;
+            const { when, onwards } = splitEventTime(event.time);
             return (
               <li
                 key={event.id}
@@ -75,7 +84,10 @@ export function EventTimeline() {
                   data-testid={`event-${event.id}`}
                   onClick={() => setOpenId(open ? null : event.id)}
                 >
-                  <span className="event-time">{event.time}</span>
+                  <span className="event-time">
+                    <span className="event-time-when">{when}</span>
+                    {onwards ? <span className="event-time-onwards">{onwards}</span> : null}
+                  </span>
                   <span className="event-main">
                     <span className="event-date">{event.date}</span>
                     <span className="event-name">{event.name}</span>
