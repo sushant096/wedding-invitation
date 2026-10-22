@@ -45,8 +45,8 @@ export const wedding = {
    * Main wedding moment (barat arrival). Calendar download and venue time use this.
    */
   ceremonyAt: "2026-11-26T21:00:00+05:30",
-  /** Countdown targets the first celebration (Mehndi). */
-  celebrationStartsAt: "2026-11-25T15:00:00+05:30",
+  /** Countdown targets the Departure of Baraat at 7:30 PM on 26th. */
+  celebrationStartsAt: "2026-11-26T19:30:00+05:30",
   timeZone: "Asia/Kolkata",
   /** First-page hero line (swans slide). */
   heroHeadline: "Sushant Weds Akansha",
@@ -75,30 +75,14 @@ export const wedding = {
   },
 
   saveTheDate: {
-    title: "Save The Dates",
+    title: "Save The Date",
     monthLabel: "NOVEMBER 2026",
-    highlightDays: [25, 26] as number[],
+    highlightDays: [26] as number[],
   },
 
   countdownTitle: "The Celebration Begins In",
   eventsTitle: "Events",
   events: [
-    {
-      id: "mehndi",
-      name: "Mehandi",
-      date: "Wednesday, 25 November 2026",
-      time: "3 PM onwards",
-      description: "An afternoon of henna, colour, music, and celebration.",
-      venue: venueGoldenTulipFull,
-    },
-    {
-      id: "ring",
-      name: "Ring Ceremony",
-      date: "Wednesday, 25 November 2026",
-      time: "7:30 PM onwards",
-      description: "Join us as we exchange rings with our families and friends.",
-      venue: venueStarlandFull,
-    },
     {
       id: "haldi",
       name: "Haldi",
@@ -143,7 +127,7 @@ export const wedding = {
 
   venues: {
     title: "Venues",
-    dateLine: "25–26 November 2026",
+    dateLine: "26 November 2026",
     places: [
       {
         id: "golden-tulip",
@@ -152,7 +136,6 @@ export const wedding = {
         mapsUrl:
           "https://www.google.com/maps/search/?api=1&query=Hotel+Golden+Tulip+Hari+Nagar+New+Delhi",
         events: [
-          { name: "Mehandi" },
           { name: "Haldi" },
           { name: "Saand" },
           { name: "Sehrabandi" },
@@ -168,7 +151,7 @@ export const wedding = {
         addressLines: ["Mayapuri", "New Delhi", "India"],
         mapsUrl:
           "https://www.google.com/maps/search/?api=1&query=Starland+Banquet+Hall+Mayapuri+New+Delhi",
-        events: [{ name: "Ring Ceremony" }, { name: "Wedding Ceremony" }],
+        events: [{ name: "Wedding Ceremony" }],
       },
     ] satisfies WeddingVenuePlace[],
   },
