@@ -50,7 +50,6 @@ export const wedding = {
   timeZone: "Asia/Kolkata",
   /** First-page hero line (swans slide). */
   heroHeadline: "Sushant Weds Akansha",
-  heroHashtag: "#SushiKiKanshi",
   /** Looping arch + swans scene (from your Swans2 reference). */
   heroVideoSrc: "/video/swans-hero.mp4",
   heroVideoPoster: "/video/swans-hero-poster.jpg",
