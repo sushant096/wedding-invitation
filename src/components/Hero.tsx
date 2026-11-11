@@ -87,9 +87,6 @@ export function Hero({ onScrollDown, videoActive, playNonce }: HeroProps) {
               <span className="hero-weds-mid">Weds</span>
               <span className="hero-name">{wedding.partnerOne}</span>
             </motion.h1>
-            <motion.p className="hero-hashtag" variants={rise}>
-              {wedding.heroHashtag}
-            </motion.p>
           </div>
           <motion.div className="hero-scroll-wrap" variants={rise}>
             <button type="button" className="scroll-cue-garden" onClick={onScrollDown}>

@@ -35,7 +35,7 @@ function openGoogleCalendar() {
 
   const venue = wedding.venues.places.find(p => p.id === "starland");
   const location = venue ? [venue.name, ...venue.addressLines].join(", ") : "";
-  const details = `Join us for the wedding of ${wedding.partnerOne} & ${wedding.partnerTwo}. ${wedding.heroHashtag}`;
+  const details = `Join us for the wedding of ${wedding.partnerOne} & ${wedding.partnerTwo}.`;
 
   const params = new URLSearchParams({
     action: "TEMPLATE",
